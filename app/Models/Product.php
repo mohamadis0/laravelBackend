@@ -17,4 +17,11 @@ class Product extends Model
         'quantity',
         'feature',
     ];
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+    public function category(){
+        return $this->belongsTo(Category::class);
+       }
 }
