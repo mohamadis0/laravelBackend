@@ -23,5 +23,8 @@ class Order extends Model
     {
         return $this->hasOne(OrderDetails::class);
     }
+    public function coupon(){
+        return $this->belongsTo(Coupon::class);
+    }
 }
 
