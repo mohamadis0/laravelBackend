@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('order_details', function (Blueprint $table) {
             $table->id();
+            $table->string('fname');
+            $table->string('lname');
+            $table->string('company_name');
+            $table->string('country_region');
+            $table->string('adress');
+            $table->string('town_city');
+            $table->string('state');
+            $table->integer('zip_code');
+            $table->string('phone');
+            $table->string('email');
+            $table->string('notes');
             $table->timestamps();
         });
     }

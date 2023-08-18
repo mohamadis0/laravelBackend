@@ -8,4 +8,18 @@ use Illuminate\Database\Eloquent\Model;
 class OrderDetails extends Model
 {
     use HasFactory;
+    protected $table='order_details';
+    protected $fillalble=[
+    'fname',
+    'lname',
+    'company_name',
+    'country_region',
+    'adress',
+    'town_city',
+    'state',
+    'zip_code',
+    'phone',
+    'email',
+    'notes',
+];
 }
