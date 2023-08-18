@@ -19,6 +19,7 @@ return new class extends Migration
             $table->string('image')->nullable();
             $table->integer('quantity');
             $table->string('feature');
+           
             $table->timestamps();
         });
     }

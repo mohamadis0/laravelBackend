@@ -8,4 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 class ProductAddon extends Model
 {
     use HasFactory;
+    protected $table = 'product_addons';
+    protected $fillable = [
+        'product_id',
+    ];
+    public function product()
+    {
+        return $this->belongsTo(Product::class);
+    }
 }

@@ -22,4 +22,8 @@ class OrderDetails extends Model
     'email',
     'notes',
 ];
+    public function order() 
+    {
+        return $this->belongsTo(Order::class);
+    }
 }

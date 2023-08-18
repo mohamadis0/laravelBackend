@@ -17,6 +17,13 @@ class Product extends Model
         'quantity',
         'feature',
     ];
+    public function tags()
+    {
+        return $this->belongsToMany(Tag::class);
+    }
+    public function category(){
+        return $this->belongsTo(Category::class);
+       }
     public function mainProducts()
     {
         return $this->belongsToMany(Product::class, 'product_product', 'related_product_id', 'main_product_id');
@@ -27,4 +34,8 @@ class Product extends Model
         return $this->belongsToMany(Product::class, 'product_product', 'main_product_id', 'related_product_id');
     }
     
+    public function addon_product()
+    {
+        return $this->hasOne(ProductAddon::class);
+    }
 }

@@ -13,4 +13,8 @@ class Order extends Model
         'status',
         'ordered_date'
     ];
+    public function orderDetails() 
+    {
+        return $this->hasOne(OrderDetails::class);
+    }
 }
