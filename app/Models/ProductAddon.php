@@ -16,4 +16,8 @@ class ProductAddon extends Model
     {
         return $this->belongsTo(Product::class);
     }
+    public function order_line()
+    {
+        return $this->belongsTo(OrderLine::class);
+    }
 }
