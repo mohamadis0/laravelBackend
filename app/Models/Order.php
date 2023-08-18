@@ -13,4 +13,11 @@ class Order extends Model
         'status',
         'ordered_date'
     ];
+    public function products(){
+        return $this->belongsToMany(Product::class);
+    }   
+    public function client(){
+    return $this->belongsTo(Client::class);
+    }
 }
+
