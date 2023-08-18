@@ -12,4 +12,9 @@ class Payment extends Model
     protected $fillable = [
         'method',
     ];
+
+    public function order()
+    {
+        return $this->hasOne(Order::class);
+    }
 }

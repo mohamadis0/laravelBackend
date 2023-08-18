@@ -10,4 +10,8 @@ class OrderLine extends Model
     use HasFactory;
     protected $table='order_lines';
     protected $fillable=["quantity"];
+    public function product_addon()
+    {
+        return $this->hasMany(ProductAddon::class);
+    }
 }
