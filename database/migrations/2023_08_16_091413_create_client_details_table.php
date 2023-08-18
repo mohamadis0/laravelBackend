@@ -9,13 +9,22 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up(): void
-    {
-        Schema::create('client_details', function (Blueprint $table) {
-            $table->id();
-            $table->timestamps();
-        });
-    }
+    public function up()
+{
+    Schema::create('client_details', function (Blueprint $table) {
+        $table->id();
+        $table->string('fname');
+        $table->string('lname');
+        $table->string('company_name')->nullable();
+        $table->string('country');
+        $table->string('city');
+        $table->string('state')->nullable();
+        $table->string('zip');
+        // $table->unsignedBigInteger('client_id'); 
+        // $table->foreign('client_id')->references('id')->on('clients');
+        $table->timestamps();
+    });
+}
 
     /**
      * Reverse the migrations.
