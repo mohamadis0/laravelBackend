@@ -8,4 +8,11 @@ use Illuminate\Database\Eloquent\Model;
 class Coupon extends Model
 {
     use HasFactory;
+    protected $table='coupons';
+    protected $fiilable = [
+        'code',
+        'discount',
+        'expire_date',
+        'activation_date',
+    ];
 }
