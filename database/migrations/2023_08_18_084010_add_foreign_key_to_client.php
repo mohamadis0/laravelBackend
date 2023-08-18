@@ -9,21 +9,20 @@ return new class extends Migration
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('adresses', function (Blueprint $table) {
-            $table->id();
-            $table->string('name');
-            $table->timestamps();
+        Schema::table('clients', function (Blueprint $table) {
+            $table->foreignId('user_id')->unique()->constrained(table:'users');
         });
     }
-    
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('adresses');
+        Schema::table('client', function (Blueprint $table) {
+            //
+        });
     }
 };

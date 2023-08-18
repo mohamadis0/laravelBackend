@@ -19,12 +19,13 @@ class ClientDetails extends Model
         'town',
         'state',
         'zip',
+        'client_id'
 
 
     ];
 
-    // public function client()
-    // {
-    //     return $this->belongsTo(Client::class);
-    // }
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

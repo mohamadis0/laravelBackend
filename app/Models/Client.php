@@ -13,18 +13,24 @@ class Client extends Model
 
     protected $table="clients";
     protected $fillable=[
-        'contact_number'
+        'contact_number',
+        'user_id'
     ];
 
-    // public function user()
-    // {
-    //     return $this->belongsTo(User::class);
+    public function user()
+    {
+        return $this->belongsTo(User::class);
         
-    // }
-    // public function adress()
-    // {
-    //     return $this->hasMany(Adress::class);
-    // }
+    }
+    public function adress()
+    {
+        return $this->hasMany(Adress::class);
+    }
+    public function clientDetails()
+    {
+        return $this->hasOne(ClientDetails::class);
+        
+    }
     public function orders(){
         return $this->hasMany(Order::class);
     }

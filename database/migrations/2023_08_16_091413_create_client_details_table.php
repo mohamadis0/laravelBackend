@@ -20,8 +20,6 @@ return new class extends Migration
         $table->string('city');
         $table->string('state')->nullable();
         $table->string('zip');
-        // $table->unsignedBigInteger('client_id'); 
-        // $table->foreign('client_id')->references('id')->on('clients');
         $table->timestamps();
     });
 }

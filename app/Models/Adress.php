@@ -12,11 +12,12 @@ class Adress extends Model
     
     protected $table="adresses";
     protected $fillable=[
-        'name'
+        'name',
+        'client_id'
     ];
 
-    // public function client()
-    // {
-    //     return $this->belongsTo(Client::class);
-    // }
+    public function client()
+    {
+        return $this->belongsTo(Client::class);
+    }
 }

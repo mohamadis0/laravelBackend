@@ -12,9 +12,7 @@ return new class extends Migration {
     {
         Schema::create('clients', function (Blueprint $table) {
             $table->id();
-             $table->integer('contact');
-            // $table->unsignedBigInteger('user_id');
-            // $table->foreign('user_id')->references('id')->on('users');
+            $table->integer('contact');
             $table->timestamps();
         });
     }
