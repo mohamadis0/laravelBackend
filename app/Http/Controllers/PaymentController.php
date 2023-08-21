@@ -12,7 +12,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.payment.index')
+                ->with('payments_method',Payment::all());
     }
 
     /**
@@ -20,7 +21,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.payment.new');
     }
 
     /**
@@ -28,7 +29,20 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'method'=>'required',
+        ]);
+        $old = Payment::where('method',$request->method)->get();
+        if($old->isEmpty()){
+            Payment::create([
+                'method'=>$request->method,
+            ]);
+            print_r('ok');
+        }
+        else{
+            print_r('Already Added');
+        }
     }
 
     /**

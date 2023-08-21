@@ -2,7 +2,9 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Coupon;
 use App\Models\Order;
+use App\Models\Payment;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -12,7 +14,7 @@ class OrderController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.order.index')->with('orders',Order::all());
     }
 
     /**
@@ -20,7 +22,7 @@ class OrderController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.order.addOrder');
     }
 
     /**
@@ -28,7 +30,14 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-        //
+       Order::create([
+        'status'=>'draft',
+        'order_date'=>'2023-08-23',
+        'client_id'=>auth()->user()->id,
+        'payment_id'=>Payment::where('name',$request->payment_method)->value('id'),
+        'coupon_id'=>Coupon::where('code',$request->coupon_code)->value('id'),
+       ]);
+       return redirect('/');
     }
 
     /**
