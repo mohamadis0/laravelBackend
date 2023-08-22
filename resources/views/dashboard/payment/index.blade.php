@@ -1,4 +1,9 @@
 <x-app-layout>
+  <x-slot name="header">
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ __('Payment') }}
+    </h2>
+</x-slot>
      @if ($message = Session::get('message'))
      <div class="bg-blue-100 border border-blue-400 text-black-700 px-4 py-3 rounded relative" role="alert">
        
@@ -21,10 +26,10 @@
     <div class="container">
       <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
-          <div class="inline-block min-w-full py-2 sm:px-6 lg:px-8">
+          <div class="inline-block w-full py-2 sm:px-6 lg:px-8">
             <div class="overflow-hidden">
-                <table class="min-w-full text-left text-sm font-light">
-                  <thead class="border-b font-medium dark:border-neutral-500">
+                <table class="bg-white w-full text-left text-sm font-light">
+                  <thead class=" border-b font-medium dark:border-neutral-500">
                     
                     <tr>
                       <th scope="col" class="px-6 py-4">id</th>
@@ -47,7 +52,7 @@
                           <form action="{{ route('payment.destroy', $payment->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button type="submit" class="bg-[#af0433] text-lg rounded-lg hover:bg-opacity-10  text-white w-full h-10 mb-4 px-6 py-2">
+                            <button type="submit" class="bg-[#af0433]  text-lg rounded-lg hover:bg-opacity-10  text-white w-full h-10 mb-4 px-6 py-2">
                                 Delete
                             </button>
                         </form>

@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\ClientController;
+use App\Http\Controllers\CouponController;
 use App\Http\Controllers\OrderController;
 use App\Http\Controllers\OrderDetailsController;
 use App\Http\Controllers\PaymentController;
@@ -8,7 +12,6 @@ use App\Http\Controllers\ProfileController;
 use App\Models\OrderDetails;
 use App\Http\Controllers\ProductAddonController;
 use App\Http\Controllers\TagController;
-
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -46,3 +49,10 @@ Route::resource('/products',ProductController::class)->middleware(['auth', 'veri
 Route::resource('/tags',TagController::class)->middleware(['auth', 'verified']);
 
 require __DIR__.'/auth.php';
+
+Route::resource('client',ClientController::class);
+Route::resource('category',CategoryController::class);
+Route::resource('coupon',CouponController::class);
+
+
+
