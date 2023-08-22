@@ -12,7 +12,7 @@ class CouponController extends Controller
      */
     public function index()
     {
-        //
+        return view('coupon.index',['data'=>Coupon::all()]);
     }
 
     /**
@@ -20,7 +20,7 @@ class CouponController extends Controller
      */
     public function create()
     {
-        //
+        return view('coupon.create');
     }
 
     /**
@@ -28,15 +28,26 @@ class CouponController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validatedData = $request->validate([
+            'code' => 'required', 
+            'expire_date' => 'required',
+            'discount' => 'required',
+            'activation_date' => 'required',
+        ]);
+
+      
+       Coupon::create($validatedData);
+
+        return redirect()->route('coupon.index')->with('success', 'Data saved successfully');
     }
+    
 
     /**
      * Display the specified resource.
      */
     public function show(Coupon $coupon)
     {
-        //
+        
     }
 
     /**
@@ -44,7 +55,7 @@ class CouponController extends Controller
      */
     public function edit(Coupon $coupon)
     {
-        //
+        return view('coupon.edit',compact('coupon'));
     }
 
     /**
@@ -52,7 +63,18 @@ class CouponController extends Controller
      */
     public function update(Request $request, Coupon $coupon)
     {
-        //
+        $validatedData = $request->validate([
+            'code' => 'required', 
+            'expire_date' => 'required',
+            'discount' => 'required',
+            'activation_date' => 'required',
+        ]);
+
+      $input=$request->all();
+       $coupon->update($input);
+
+        return redirect()->route('coupon.index')->with('success', 'Data saved successfully');
+    
     }
 
     /**
@@ -60,6 +82,15 @@ class CouponController extends Controller
      */
     public function destroy(Coupon $coupon)
     {
-        //
+        $record = Coupon::find($coupon->id);
+
+        if (!$record) {
+            return redirect()->back()->with('error', 'Coupon not found.');
+        }
+
+        
+        $record->delete();
+
+        return redirect()->route('coupon.index')->with('success', 'Coupon deleted successfully.');
     }
 }
