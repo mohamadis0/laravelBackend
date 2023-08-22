@@ -13,25 +13,32 @@ class ProductController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    { 
+
+    {
+    
         $products=Product::where('feature','product')->get();
        
         return view('products.index',compact('products'));
 
-
+    
      
+
     }
 
     /**
      * Show the form for creating a new resource.
      */
     public function create()
-    {$addons=Product::where('feature','add-on')->get()->pluck('name','id');
+
+    
+    {
+      $addons=Product::where('feature','add-on')->get()->pluck('name','id');
     $remove=Product::where('feature','remove')->get()->pluck('name','id');
      $categories=Category::pluck('name','id');
      $tags=Tag::pluck('name','id');
      
      return view('products.create',compact('categories','tags','remove','addons'));
+
     }
 
     /**
@@ -39,6 +46,9 @@ class ProductController extends Controller
      */
     public function store(Request $request)
     {
+
+        
+
         $request->validate([
             'name'=>'required',
             'description'=>'required',
@@ -78,6 +88,7 @@ class ProductController extends Controller
    
 
         return redirect()->route("products.index")->with('success',"Product added successfuly");
+
     }
 
     /**
