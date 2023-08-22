@@ -16,10 +16,11 @@ class Product extends Model
         'image',
         'quantity',
         'feature',
+        'category_id',
     ];
     public function tags()
     {
-        return $this->belongsToMany(Tag::class);
+        return $this->belongsToMany(Tag::class,table:"tag_products");
     }
     public function category(){
         return $this->belongsTo(Category::class);
@@ -29,12 +30,12 @@ class Product extends Model
     }   
     public function mainProducts()
     {
-        return $this->belongsToMany(Product::class, 'product_product', 'related_product_id', 'main_product_id');
+        return $this->belongsToMany(Product::class, 'product_products', 'related_product_id', 'main_product_id');
     }
 
     public function relatedProducts()
     {
-        return $this->belongsToMany(Product::class, 'product_product', 'main_product_id', 'related_product_id');
+        return $this->belongsToMany(Product::class, 'product_products', 'main_product_id', 'related_product_id');
     }
     
     public function addon_product()
