@@ -13,7 +13,7 @@ class PaymentController extends Controller
     public function index()
     {
         return view('dashboard.payment.index')
-                ->with('payments_method',Payment::all());
+                ->with('data',Payment::all());
     }
 
     /**
@@ -38,10 +38,10 @@ class PaymentController extends Controller
             Payment::create([
                 'method'=>$request->method,
             ]);
-            print_r('ok');
+            return  redirect()->route('payment.index')->with('message','Added Successfully');
         }
         else{
-            print_r('Already Added');
+            return redirect()->route('payment.index')->with('message','Already Added');
         }
     }
 
@@ -74,6 +74,11 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        //
+        if($payment){
+            $payment->delete();
+            return redirect()->route('payment.index')->with('message','Delelted Successfully');
+        }else{
+            return redirect()->route('payment.index')->with('error','An Error Occured');
+        }
     }
 }

@@ -14,7 +14,7 @@ class OrderDetailsController extends Controller
      */
     public function index()
     {
-        return view('dashboard.order.index')->with('orders',Order::all());
+        return view('dashboard.order.showOrderDetails');
     }
 
     /**
