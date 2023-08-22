@@ -1,8 +1,17 @@
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <div class="flex justify-between items-center">
+      <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
         {{ __('Payment') }}
     </h2>
+      <form action="{{route('payment.create')}}" method="GET">
+        <div class="text-center">
+            <button type="submit" class=" bg-blue-500 py-2 rounded-full text-white text-sm font-bold px-5 py-2" >New  Method</button>
+    
+        </div>
+    </form>
+    </div>
+    
 </x-slot>
      @if ($message = Session::get('message'))
      <div class="bg-blue-100 border border-blue-400 text-black-700 px-4 py-3 rounded relative" role="alert">
@@ -17,12 +26,7 @@
      @endif
      
  
-  <form action="{{route('payment.create')}}" method="GET">
-    <div class="text-center">
-        <button type="submit" class="w-2/3 bg-blue-500 py-2 rounded-full text-white text-xl" >New Payment Method</button>
-
-    </div>
-</form>
+  
     <div class="container">
       <div class="flex flex-col">
         <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -67,6 +71,7 @@
         </div>
       </div>
     </div>
+    
     
     
   </x-app-layout>
