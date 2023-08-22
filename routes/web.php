@@ -1,6 +1,9 @@
 <?php
 
+use App\Http\Controllers\ProductAddonController;
+use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\TagController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,4 +31,6 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
+Route::resource('/products',ProductController::class)->middleware(['auth', 'verified']);
+Route::resource('/tags',TagController::class)->middleware(['auth', 'verified']);
 require __DIR__.'/auth.php';
