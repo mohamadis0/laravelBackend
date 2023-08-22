@@ -7,8 +7,6 @@ use App\Http\Controllers\ProductController;
 use App\Http\Controllers\ProfileController;
 use App\Models\OrderDetails;
 use App\Http\Controllers\ProductAddonController;
-use App\Http\Controllers\ProductController;
-use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\TagController;
 
 use Illuminate\Support\Facades\Route;
