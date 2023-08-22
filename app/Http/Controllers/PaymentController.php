@@ -12,7 +12,8 @@ class PaymentController extends Controller
      */
     public function index()
     {
-        //
+        return view('dashboard.payment.index')
+                ->with('data',Payment::all());
     }
 
     /**
@@ -20,7 +21,7 @@ class PaymentController extends Controller
      */
     public function create()
     {
-        //
+        return view('dashboard.payment.new');
     }
 
     /**
@@ -28,7 +29,20 @@ class PaymentController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        
+        $request->validate([
+            'method'=>'required',
+        ]);
+        $old = Payment::where('method',$request->method)->get();
+        if($old->isEmpty()){
+            Payment::create([
+                'method'=>$request->method,
+            ]);
+            return  redirect()->route('payment.index')->with('message','Added Successfully');
+        }
+        else{
+            return redirect()->route('payment.index')->with('message','Already Added');
+        }
     }
 
     /**
@@ -60,6 +74,11 @@ class PaymentController extends Controller
      */
     public function destroy(Payment $payment)
     {
-        //
+        if($payment){
+            $payment->delete();
+            return redirect()->route('payment.index')->with('message','Delelted Successfully');
+        }else{
+            return redirect()->route('payment.index')->with('error','An Error Occured');
+        }
     }
 }
