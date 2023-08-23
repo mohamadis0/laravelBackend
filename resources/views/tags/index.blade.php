@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Tags') }}
         </h2>
     </x-slot>
@@ -20,45 +20,50 @@
       </svg>
       
 </a>
-<table class=" container table w-100 overflow-auto border bg-white ">
+<table class=" container table w-full overflow-auto border bg-white ">
    
     <thead>
         <tr>
-           <th>Id</th> 
-           <th>Name</th> 
-           <th>Created at</th> 
-           <th>Updated at</th>
-           <th>Edit</th>
-           <th>Del</th>
+           <th class="px-6 py-4">Id</th> 
+           <th class="px-6 py-4">Name</th> 
+           <th class="px-6 py-4">Created at</th> 
+           <th class="px-6 py-4">Updated at</th>
+           <th class="px-6 py-4">Edit</th>
+           <th class="px-6 py-4">Del</th>
         </tr>
     </thead>
     <tbody>
         @foreach ($tags as $item)
-         <tr key={{$item->id}} class="text-center ">
-            <td >{{$item->id}}</td>
-            <td>{{$item->name}}</td>
-            <td>{{$item->created_at}}</td>
-            <td>{{$item->updated_at}}</td>
-             <td>
-                <a class=" bg-white text-center text-red " href="{{route('tags.edit',$item->id)}}">
-                    <div class=" text-center">
-                        <svg  xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green" class="bi bi-pencil" viewBox="0 0 16 16">
-                            <path d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z"/>
-                          </svg>
-                    </div>
-                </a>
+            <tr key={{$item->id}} class="text-center ">
+            <td class="px-6 py-4" >{{$item->id}}</td>
+            <td class="px-6 py-4">{{$item->name}}</td>
+            <td class="px-6 py-4">{{$item->created_at}}</td>
+            <td class="px-6 py-4">{{$item->updated_at}}</td>
+             <td class="px-6 py-4">
+                <a class="bg-green-100 text-lg rounded-lg hover:bg-transparent w-full p-2 mb-4" href="{{ route('tags.edit', $item->id) }}">
+                    edit
+                 </a>
             </td>
-            <td>
-             <form action="{{route('tags.destroy',$item->id)}}" method="POST" >
-                @csrf
-                @method('DELETE')
-                <button  class=" bg-white  border-0" type="submit">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
-                        <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
-                      </svg>
-                </button>
-             </form>
+            <td class="px-6 py-4">
+                <form id="delete-form-{{$item->id}}" action="{{ route('tags.destroy', $item->id) }}" method="POST">
+                    @csrf
+                    @method('DELETE')
+                    <button class="bg-white border-0 px-6 py-4" type="button" onclick="confirmDelete({{$item->id}})">
+                        <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                            <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z"/>
+                        </svg>
+                    </button>
+                </form>
             </td>
+            
+            <script>
+                function confirmDelete(itemId) {
+                    if (confirm("Are you sure you want to delete this data?")) {
+                        document.getElementById("delete-form-" + itemId).submit();
+                    }
+                }
+            </script>
+            
         </tr>
    
         @endforeach  
