@@ -1,10 +1,21 @@
 
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
         {{ __('Order') }}
     </h2>
 </x-slot>
+@if ($message = Session::get('message'))
+     <div class="bg-blue-100 border border-blue-400 text-black-700 px-4 py-3 rounded relative" role="alert">
+       
+        <span class="block sm:inline">  <ul>
+            <li class="text-center">
+                {{$message}} 
+            </li>
+            </ul></span>
+        
+      </div>
+     @endif
   <div class="container">
     <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">

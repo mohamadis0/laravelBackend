@@ -2,10 +2,13 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Models\OrderLine;
 use App\Models\Payment;
+use App\Models\Product;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -25,7 +28,9 @@ class OrderController extends Controller
 
     public function create()
     {
-        return view('dashboard.order.addOrder');
+        $products = Product::where('feature','product')->get();
+        $addons= Product::where('feature','add-on')->get();
+        return view('dashboard.order.create',compact('products','addons'));
     }
 
     /**
@@ -33,14 +38,35 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-       Order::create([
-        'status'=>'draft',
-        'order_date'=>'2023-08-23',
-        'client_id'=>auth()->user()->id,
-        'payment_id'=>Payment::where('name',$request->payment_method)->value('id'),
-        'coupon_id'=>Coupon::where('code',$request->coupon_code)->value('id'),
-       ]);
-       return redirect('/');
+        $request->validate([
+            'product'=>'required|exists:products,id',
+            'quantity'=>'required',
+        ]);
+        $user_id = auth()->user()->id;
+        $available_order = Order::where('client_id', $user_id)
+        ->where('status', 'draft')
+        ->latest('id')
+        ->first();
+        $product_id = $request->input('product');
+            $quantity = $request->input('quantity');
+        if($available_order){
+            $available_order->products()->attach($product_id, ['quantity' => $quantity]);
+            return redirect()->route('order.index')->with('message','product added to order');
+        }
+           $order =  Order::create([
+                'status'=>'draft',
+                'ordered_date'=>'2023-08-23',
+                'client_id'=>$user_id,
+                'payment_id'=>11,
+                'coupon_id'=>1,
+               ]);
+               $order->save();
+               $order->products()->attach($product_id, ['quantity' => $quantity]);
+            return redirect()->route('order.index')->with('message','product added to order');
+
+        
+        
+       
     }
 
     /**

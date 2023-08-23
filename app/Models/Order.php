@@ -11,10 +11,13 @@ class Order extends Model
     protected $table = 'orders';
     protected $fillable= [
         'status',
-        'ordered_date'
+        'ordered_date',
+        'client_id',
+        'payment_id',
+        'coupon_id'
     ];
     public function products(){
-        return $this->belongsToMany(Product::class);
+        return $this->belongsToMany(Product::class,table:'order_lines');
     }   
     public function client(){
     return $this->belongsTo(Client::class);
@@ -30,5 +33,6 @@ class Order extends Model
     public function coupon(){
         return $this->belongsTo(Coupon::class);
     }
+    
 }
 
