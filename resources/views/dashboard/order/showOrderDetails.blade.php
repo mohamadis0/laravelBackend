@@ -1,62 +1,11 @@
-{{-- <!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Bootstrap demo</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
-  </head>
-  <body>
-    <div class="container">
-        <div>
-            <table class="table">
-                <thead>
-                  <tr>
-                    <th scope="col">id</th>
-                    <th scope="col">order_id</th>
-                    <th scope="col">Username</th>
-                    <th scope="col">Company name</th>
-                    <th scope="col">Country </th>
-                    <th scope="col">Address </th>
-                    <th scope="col">Town </th>
-                    <th scope="col">state </th>
-                    <th scope="col">zip code  </th>
-                    <th scope="col">phone  </th>
-                    <th scope="col">notes  </th>
-                  </tr>
-                </thead>
-                
-                @if ($orderDetails)
-                    <tr>
-                        <td>{{$orderDetails->id}}</td>
-                        <td>{{$orderDetails->order_id}}</td>
-                        <td>{{$orderDetails->order->client->user->name}}</td>
-                        <td>{{$orderDetails->company_name}}</td>
-                        <td>{{$orderDetails->country_region}}</td>
-                        <td>{{$orderDetails->adress}}</td>
-                        <td>{{$orderDetails->town_city}}</td>
-                        <td>{{$orderDetails->state}}</td>
-                        <td>{{$orderDetails->zip_code}}</td>
-                        <td>{{$orderDetails->phone}}</td>
-                        <td>{{$orderDetails->notes}}</td>
-                        
-                    </tr>
-                @else
-                @endif
-                <tbody>
-                      
-                </tbody>
-              </table>
-        </div>
-        <div>
-        </div>
-        
-    </div>
-    
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
-  </body>
-</html> --}}
+
 <x-app-layout>
+  <x-slot name="header">
+    <div class="flex justify-center items-center">
+      <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+        {{ __('Order Details') }}
+    </h2>
+</x-slot>
   @if ($message = Session::get('message'));
   <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
        

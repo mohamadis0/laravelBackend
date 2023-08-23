@@ -12,18 +12,21 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-
+    public function index(Request $request)
     {
+        $filter = $request->input('filter');
     
-        $products=Product::where('feature','product')->get();
-       
-        return view('products.index',compact('products'));
-
+        $query = Product::query();
     
-     
-
+        if ($filter) {
+            $query->where('feature', $filter);
+        }
+    
+        $products = $query->get();
+    
+        return view('products.index', compact('products'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
