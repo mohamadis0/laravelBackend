@@ -18,7 +18,8 @@
             </span>
         </div>
     @endif
-    <a class=" bg-transparent border-0  " style="padding: 10px" href="{{ route('products.create') }}">
+   <div class="flex flex-row items-center justify-between">
+    <a class=" bg-transparent border-0  " style="padding: 5px" href="{{ route('products.create') }}">
         <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#af0433" class="bi bi-plus-square"
             viewBox="0 0 16 16">
             <path
@@ -28,6 +29,18 @@
         </svg>
 
     </a>
+    <form action="{{ route('products.index') }}" method="GET" class="mb-4 p-1 ">
+        <label for="filter">Filter by Feature:</label>
+        <select name="filter" id="filter" class="px-2 py-1 border rounded">
+            <option value="">All Features</option>
+            <option value="product">Product</option>
+            <option value="remove">Remove</option>
+            <option value="add-on">Add-on</option>
+        </select>
+        <button type="submit" class=" bg-[#af0433] text-sm rounded-lg hover:bg-transparent w-full   mt-10 p-2">Apply Filter</button>
+    </form>
+    
+   </div>
     <table class=" container table w-full overflow-auto border bg-white">
 
         <thead>
@@ -82,19 +95,26 @@
                            edit
                         </a>
                     </td>
-                    <td  class="px-6 py-4">
-                        <form action="{{ route('products.destroy', $item->id) }}" method="POST">
+                    <td class="px-6 py-4">
+                        <form id="delete-form" action="{{ route('products.destroy', $item->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button class=" bg-white  border-0" type="submit">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red"
-                                    class="bi bi-trash3" viewBox="0 0 16 16">
-                                    <path
-                                        d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
+                            <button class="bg-white border-0" type="button" onclick="confirmDelete()">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red" class="bi bi-trash3" viewBox="0 0 16 16">
+                                    <path d="M6.5 1h3a.5.5 0 0 1 .5.5v1H6v-1a.5.5 0 0 1 .5-.5ZM11 2.5v-1A1.5 1.5 0 0 0 9.5 0h-3A1.5 1.5 0 0 0 5 1.5v1H2.506a.58.58 0 0 0-.01 0H1.5a.5.5 0 0 0 0 1h.538l.853 10.66A2 2 0 0 0 4.885 16h6.23a2 2 0 0 0 1.994-1.84l.853-10.66h.538a.5.5 0 0 0 0-1h-.995a.59.59 0 0 0-.01 0H11Zm1.958 1-.846 10.58a1 1 0 0 1-.997.92h-6.23a1 1 0 0 1-.997-.92L3.042 3.5h9.916Zm-7.487 1a.5.5 0 0 1 .528.47l.5 8.5a.5.5 0 0 1-.998.06L5 5.03a.5.5 0 0 1 .47-.53Zm5.058 0a.5.5 0 0 1 .47.53l-.5 8.5a.5.5 0 1 1-.998-.06l.5-8.5a.5.5 0 0 1 .528-.47ZM8 4.5a.5.5 0 0 1 .5.5v8.5a.5.5 0 0 1-1 0V5a.5.5 0 0 1 .5-.5Z" />
                                 </svg>
                             </button>
                         </form>
                     </td>
+                    
+                    <script>
+                        function confirmDelete() {
+                            if (confirm("Are you sure you want to delete this product?")) {
+                                document.getElementById("delete-form").submit();
+                            }
+                        }
+                    </script>
+                    
                 </tr>
             @endforeach
         </tbody>

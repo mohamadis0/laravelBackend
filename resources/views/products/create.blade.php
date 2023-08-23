@@ -32,21 +32,27 @@
         <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-3 ">
+                <label for="name">Name:</label>
                 <input placeholder="Name" type="text" name="name" class="w-full rounded-lg">
             </div>
             <div class="mb-3">
+                <label for="description">Description:</label>
                 <textarea name="description" id="" class="w-full rounded-lg"></textarea>
             </div>
             <div class="mb-3">
+                <label for="price">Price:</label>
                 <input placeholder="Price" type="number" name="price" class="w-full rounded-lg">
             </div>
             <div class="mb-3">
+                <label for="image">Image:</label>
                 <input placeholder="Image" type="file" name="image" class="w-full rounded-lg">
             </div>
             <div class="mb-3">
+                <label for="quantity">Quantity:</label>
                 <input placeholder="Quantity" type="number" name="quantity" class="w-full rounded-lg">
             </div>
             <div class="mb-3">
+                <label for="feature">Feature:</label>
                 <select placeholder="Feature" type="text" name="feature" class="w-full rounded-lg">
                     <option value="add-on"> Add ON</option>
                     <option value="product">Product</option>
@@ -54,6 +60,7 @@
                 </select>
             </div>
             <div class="mb-3">
+                <label for="category">categoryName:</label>
                 <select name="category_id" class="w-full rounded-lg" id="">
                     @foreach ($categories as $categoryId => $categoryName)
                         <option value="{{ $categoryId }}">{{ $categoryName }}</option>
@@ -118,7 +125,7 @@
                 </a>
             </div>
             <button type="submit"
-                class=" bg-[#af0433] text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4">create product</button>
+                class=" bg-[#af0433] text-lg rounded-lg hover:bg-transparent w-full   mb-10 p-2">create product</button>
         </form>
     </div>
 </x-app-layout>
