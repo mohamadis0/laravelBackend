@@ -28,18 +28,29 @@ class Product extends Model
     public function orders(){
         return $this->belongsToMany(Order::class);
     }   
-    public function mainProducts()
+    public function ingredientMainProducts()
     {
-        return $this->belongsToMany(Product::class, 'product_products', 'related_product_id', 'main_product_id');
+        return $this->belongsToMany(Product::class, 'ingredients', 'ingredient_id', 'product_id');
     }
 
-    public function relatedProducts()
+    public function ingredients()
     {
-        return $this->belongsToMany(Product::class, 'product_products', 'main_product_id', 'related_product_id');
+        return $this->belongsToMany(Product::class, 'ingredients', 'product_id', 'ingredient_id');
+    }
+
+    public function addonMainProducts()
+    {
+        return $this->belongsToMany(Product::class, 'addons', 'addon_id', 'product_id');
+    }
+
+    public function addons()
+    {
+        return $this->belongsToMany(Product::class, 'addons', 'product_id', 'addon_id');
     }
     
-    public function addon_product()
-    {
-        return $this->hasOne(ProductAddon::class);
-    }
+    
+    // public function addon_product()
+    // {
+    //     return $this->hasOne(ProductAddon::class);
+    // }
 }
