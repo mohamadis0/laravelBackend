@@ -42,11 +42,12 @@ Route::middleware('auth')->group(function () {
     Route::resource('/order',OrderController::class);
 Route::resource('/orderDetails',OrderDetailsController::class);
 Route::resource('/payment',PaymentController::class);
+Route::resource('/products',ProductController::class);
+Route::resource('/tags',TagController::class);
 });
 
 
-Route::resource('/products',ProductController::class)->middleware(['auth', 'verified']);
-Route::resource('/tags',TagController::class)->middleware(['auth', 'verified']);
+
 
 require __DIR__.'/auth.php';
 
