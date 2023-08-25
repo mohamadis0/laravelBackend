@@ -31,13 +31,12 @@ class OrderController extends Controller
      */
     
 
-    public function create()
+    public function create( $product_id )
     {
-        $product = Product::find(1);
-        $products = Product::where('feature','product')->get();
-        $addons= $product->addons;
-        $removes = $product->removables;
-        return view('dashboard.order.create',compact('products','addons','removes'));
+
+        $product = Product::find($product_id);
+    
+        return view('dashboard.order.create',compact('product'));
         // dd($addons);
     }
 
@@ -166,5 +165,11 @@ return view('dashboard.order.products',compact('orderlines','order','products'))
         }else{
             print_r("No product to delted");
         }
+    }
+    public function updateStatus(Order $order)
+    {
+        $order->status = 'order';
+        $order->save();
+        return redirect()->route('order.index')->with('message','Ordered');
     }
 }
