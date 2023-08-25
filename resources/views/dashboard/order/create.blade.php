@@ -43,6 +43,14 @@
                 </label>
                 @endforeach
             </div>
+            <div class="mb-4">
+                <label class="form-label">Removes:</label><br>
+                @foreach ($removes as $remove)
+                <label class="checkbox-inline">
+                    <input type="checkbox" name="remove[]" value="{{ $remove->id }}"> {{ $remove->name }}
+                </label>
+                @endforeach
+            </div>
             
             <button type="submit"
             class=" bg-blue-300 text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4 mt-8">create order</button>

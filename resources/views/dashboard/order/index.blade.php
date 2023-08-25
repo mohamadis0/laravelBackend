@@ -43,7 +43,10 @@
                     <td class="whitespace-nowrap px-6 py-4">{{$order->created_at}}</td>
                     <td class="whitespace-nowrap px-6 py-4">{{$order->ordered_date}}</td>
                     <td class="whitespace-nowrap px-6 py-4 text-center">
-                      <a href="{{ route('order.show', $order->id) }}" class=" bg-[#af0433] text-lg rounded-lg hover:bg-opacity-10  text-white w-full h-10 mb-4 px-6 py-2" >
+                      <a href="{{ route('orderDetails.show', $order->id) }}" class=" bg-[#af0433] text-lg rounded-lg hover:bg-opacity-10  text-white w-full h-10 mb-4 px-6 py-2" >
+                        More Details
+                      </a>
+                      <a href="{{ route('order.show', $order->id) }}" class=" bg-blue-300 text-lg rounded-lg hover:bg-opacity-10  text-white w-full h-10 mb-4 px-6 py-2" >
                         More Details
                       </a>
                     </td>

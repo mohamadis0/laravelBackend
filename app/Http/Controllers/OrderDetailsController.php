@@ -79,8 +79,11 @@ class OrderDetailsController extends Controller
     public function show($order_id)
     {
 
-        $orderDetails = OrderDetails::where('order_id', $order_id)->get();
-        dd($orderDetails);
+        $order_details = OrderDetails::where('order_id',$order_id)->first();
+        if (!$order_details) {
+            return redirect()->route('orderDetails.index')->with('message','No Details For This Order');
+        } 
+        return view('dashboard.order.showOrderDetails')->with('orderDetails',$order_details);
     }
 
     /**

@@ -26,7 +26,7 @@ class Product extends Model
         return $this->belongsTo(Category::class);
        }
     public function orders(){
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class,table:"order_lines");
     }   
     public function ingredientMainProducts()
     {
@@ -47,10 +47,22 @@ class Product extends Model
     {
         return $this->belongsToMany(Product::class, 'addons', 'product_id', 'addon_id');
     }
+
+    public function removables()
+    {
+        return $this->belongsToMany(Product::class, 'ingredients', 'product_id', 'ingredient_id')
+            ->wherePivot('removable', 1);
+    }
+
+    public function productAddons()
+    {
+        return $this->belongsToMany(ProductAddon::class,table:'product_product_addons');
+    }
+    
+    public function orderLine()
+{
+    return $this->belongsToMany(OrderLine::class,table:'product_orderlines');
+}
     
     
-    // public function addon_product()
-    // {
-    //     return $this->hasOne(ProductAddon::class);
-    // }
 }
