@@ -109,9 +109,9 @@ class ClientController extends Controller
     public function update(Request $request, Client $client)
     {
         $input=$request->all();
-        $category->update($input);
+        $client->update($input);
  
-         return redirect()->route('category.index')->with('success', 'Data saved successfully');
+         return redirect()->route('client.index')->with('success', 'Data saved successfully');
      
     }
 

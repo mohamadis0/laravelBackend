@@ -59,7 +59,7 @@
               
                       @csrf
                       
-                      <button class=" bg-green-500 text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4" type="submit" >Edit</button>
+                      <button class=" bg-red-400 text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4" type="submit" >Edit</button>
                   </form>
               </td>
                   </tr> 
