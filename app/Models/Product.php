@@ -35,7 +35,7 @@ class Product extends Model
 
     public function ingredients()
     {
-        return $this->belongsToMany(Product::class, 'ingredients', 'product_id', 'ingredient_id');
+        return $this->belongsToMany(Product::class, 'ingredients', 'product_id', 'ingredient_id')->withPivot('removable');
     }
 
     public function addonMainProducts()
