@@ -124,9 +124,9 @@
                                 </td>
                                 <td class="text-center">
                                     <input type="checkbox" name="ingredient_removable[{{ $ingredientId }}]" value="1"
-                                    {{$product->ingredients[$loop->index]->pivot->removable ? 'checked' : '' }} 
+                                    {{isset($product->ingredients[$loop->index])&& $product->ingredients[$loop->index]->pivot->removable ? 'checked' : '' }} 
                                     >
-
+                                   
                                 </td>
                             </tr>
                                                       
@@ -135,6 +135,7 @@
                         
                     </tbody>
                 </table>
+               
                 <a class="bg-transparent border-0" style="padding: 5px" href="{{ route('products.create') }}">
                     <button type="button"  class=" bg-[#af0433] text-sm rounded-lg hover:bg-transparent w-full   mt-2 p-1"> add ingredient</button>
                   </a>
