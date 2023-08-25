@@ -4,7 +4,7 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use App\Adress;
+
 
 class Client extends Model
 {
@@ -12,7 +12,7 @@ class Client extends Model
 
     protected $table="clients";
     protected $fillable=[
-        'contact_number',
+        'contact',
         'user_id'
     ];
 

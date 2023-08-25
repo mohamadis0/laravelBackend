@@ -5,12 +5,12 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class ProductProductAddon extends Model
+class ProductProductRemove extends Model
 {
     use HasFactory;
-    protected $table = 'product_product_addons';
+    protected $table = 'product_product_removes';
     protected $fillable = [
         'product_id',
-        'product_addon_id',
+        'product_remove_id',
     ];
 }

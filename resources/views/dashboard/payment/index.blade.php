@@ -6,7 +6,7 @@
     </h2>
       <form action="{{route('payment.create')}}" method="GET">
         <div class="text-center">
-            <button type="submit" class=" bg-blue-500 py-2 rounded-full text-white text-sm font-bold px-5 py-2" >New  Method</button>
+            <button type="submit" class=" bg-blue-500 py-2 rounded-full text-white text-sm font-bold px-5 " >New  Method</button>
     
         </div>
     </form>

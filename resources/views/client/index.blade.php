@@ -17,6 +17,8 @@
               </div>
             @endif
             <div class="overflow-hidden">
+              <a href="client/create" class=" w-12 bg-white text-lg rounded-lg hover:bg-transparent h-12 mb-4" type="submit" >+</a>
+              
               <table class="bg-white w-full text-left text-sm font-light">
                 <thead
                   class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
@@ -25,6 +27,7 @@
                     <th scope="col" class="px-6 py-4">name</th>
                     <th scope="col" class="px-6 py-4">email</th>
                     <th scope="col" class="px-6 py-4">contact</th>
+                    
                   </tr>
                 </thead>
                 <tbody>
@@ -37,6 +40,7 @@
                     <td class="whitespace-nowrap px-6 py-4">{{$client->user->name}}</td>
                     <td class="whitespace-nowrap px-6 py-4">{{$client->user->email}}</td>
                     <td class="whitespace-nowrap px-6 py-4">{{$client->contact}}</td>
+                  
                     <td>
                       <form action="/client/{{$client->id}}" method="POST"  >
                   
@@ -45,6 +49,19 @@
                           <button class=" bg-red-500 text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4" type="submit" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
                       </form>
                   </td>
+                  <td>
+                  <a href="{{ route('client.show', $client->id) }}" class=" bg-[#af0433] text-lg rounded-lg hover:bg-opacity-10  w-full h-10 mb-4 px-6 py-2" >
+                    More Details
+                  </a>
+                </td>
+                <td>
+                  <form action="{{route('client.edit', $client->id)}}" method="PUT"  >
+              
+                      @csrf
+                      
+                      <button class=" bg-red-400 text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4" type="submit" >Edit</button>
+                  </form>
+              </td>
                   </tr> 
                   @endforeach
                   

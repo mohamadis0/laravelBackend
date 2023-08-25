@@ -58,6 +58,10 @@ class Product extends Model
     {
         return $this->belongsToMany(ProductAddon::class,table:'product_product_addons');
     }
+    public function productRemoves()
+    {
+        return $this->belongsToMany(ProductRemoves::class,table:'product_product_removes');
+    }
     
     public function orderLine()
 {

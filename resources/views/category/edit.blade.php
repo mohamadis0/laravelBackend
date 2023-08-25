@@ -18,7 +18,7 @@
                     </div>
                     <div>
                         <x-input-label for="category" :value="__('Icon')" />
-                        <x-text-input id="category" class="block mt-1 w-full" type="text" name="Icon" value="{{$category->Icon}}" required autofocus autocomplete="username" />
+                        <x-text-input id="category" class="block mt-1 w-full" type="file" name="Icon" value="{{$category->Icon}}" required autofocus autocomplete="username" />
                     </div>
                    
                     <button type="submit" class="bg-green-500 w-full ">Submit</button>

@@ -11,6 +11,9 @@ use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductAddon;
 use App\Models\ProductProductAddon;
+use App\Models\ProductProductRemove;
+use App\Models\ProductRemove;
+use App\Models\ProductRemoves;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -28,13 +31,12 @@ class OrderController extends Controller
      */
     
 
-    public function create()
+    public function create( $product_id )
     {
-        $product = Product::find(1);
-        $products = Product::where('feature','product')->get();
-        $addons= $product->addons;
-        $removes = $product->removables;
-        return view('dashboard.order.create',compact('products','addons','removes'));
+
+        $product = Product::find($product_id);
+    
+        return view('dashboard.order.create',compact('product'));
         // dd($addons);
     }
 
@@ -47,12 +49,14 @@ class OrderController extends Controller
             'product' => 'required|exists:products,id',
             'quantity' => 'required',
             'add' => 'array',
+            'remove'=>'array'
         ]);
     
         $user_id = auth()->user()->id;
         $productId = $request->input('product');
         $quantity = $request->input('quantity');
         $addons = $request->input('add', []);
+        $removes = $request->input('remove',[]);
     
         $available_order = Order::where('client_id', $user_id)
             ->where('status', 'draft')
@@ -64,7 +68,7 @@ class OrderController extends Controller
                 'status' => 'draft',
                 'ordered_date' => '2023-08-23',
                 'client_id' => $user_id,
-                'payment_id' => 1,
+                'payment_id' => 2,
                 'coupon_id' => 1,
             ]);
         }
@@ -83,18 +87,21 @@ class OrderController extends Controller
                 $product_addon = ProductAddon::create([
                     'order_line_id' => $orderLine->id,
                 ]);
-                // $productAddon_id = $product_addon->id;
-                // $product_addon->products()->attach($product_id, ['productAddon_id' => $product_addon->id]);
-                // ProductProductAddon::create([
-                //     'product_id'=>$product_id,
-                //     'product_addon_id'=>$product_addon->id
-                // ]);
-                // $product_addon->products()->attach(['product_id'=>$productId],['product_addon_id'=>$product_id]);\
                 ProductProductAddon::create([
                     'product_id'=>$product_id,
                     'product_addon_id'=>$product_addon->id,
                 ]);
             }
+            foreach ($removes as $product_id) {
+                $product_remove = ProductRemove::create([
+                    'order_line_id' => $orderLine->id,
+                ]);
+                ProductProductRemove::create([
+                    'product_id'=>$product_id,
+                    'product_remove_id'=>$product_remove->id,
+                ]);
+            }
+
         
             return redirect()->route('order.index')->with('message', 'product added to order');
         // }
@@ -125,7 +132,7 @@ class OrderController extends Controller
     //         }
     //     }
     // }
-    return view('dashboard.order.products',compact('orderlines','order','products'));
+return view('dashboard.order.products',compact('orderlines','order','products'));
     
     }
 
@@ -158,5 +165,11 @@ class OrderController extends Controller
         }else{
             print_r("No product to delted");
         }
+    }
+    public function updateStatus(Order $order)
+    {
+        $order->status = 'order';
+        $order->save();
+        return redirect()->route('order.index')->with('message','Ordered');
     }
 }
