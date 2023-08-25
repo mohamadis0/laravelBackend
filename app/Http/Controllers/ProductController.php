@@ -177,7 +177,7 @@ class ProductController extends Controller
         if ($add = $request->input('add')) {
             $product->addons()->sync($add);
         } else {
-            $product->relatedProducts()->detach();
+            $product->addons()->detach();
         }
     
         $ingredients = $request->input('ingredient', []);
