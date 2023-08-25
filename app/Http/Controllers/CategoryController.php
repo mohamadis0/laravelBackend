@@ -28,12 +28,27 @@ class CategoryController extends Controller
      */
     public function store(Request $request)
     {
-        $validatedData = $request->validate([
+        $request->validate([
             'Name' => 'required', 
             'Icon' => 'required',
             
         ]);
-       $input=$request->all();
+
+        $input=$request->all();
+        $combinedRelatedProducts = array_merge(
+            $request->input('add', []),
+            $request->input('remove', [])
+          );
+         
+        if($image=$request->file('Icon')){
+            
+            $destinationPath='images/';
+            $productImage=date('YmdHis').".".$image->getClientOriginalExtension();
+            $image->move($destinationPath,$productImage);
+            $input['Icon']="$productImage";
+        }
+
+        
     
        Category::create($input);
 
