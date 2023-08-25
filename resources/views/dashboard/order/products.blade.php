@@ -1,8 +1,17 @@
 <x-app-layout>
     <x-slot name="header">
+      <div class="flex justify-between items-center">
       <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
-          {{ __('Order') }}
+          {{ __('Products Ordered') }}
       </h2>
+      <form action="{{ route('orders.update-status', ['order' => $order->id]) }}" method="POST">
+        @csrf
+        <div class="text-center">
+            <button type="submit" class=" bg-blue-500 py-2 rounded-full text-white text-sm font-bold px-5 " > Ordered</button>
+    
+        </div>
+    </form>
+    </div>
   </x-slot>
   @if ($message = Session::get('message'))
        <div class="bg-blue-100 border border-blue-400 text-black-700 px-4 py-3 rounded relative" role="alert">
@@ -52,7 +61,7 @@
                           <td class=" py-4 text-center">{{$product->name}}</td> 
                           <td class=" py-4 text-center">{{$orderline->quantity}}</td>
                           {{-- <td class=" py-4"> <img src="/images/{{ $product->image }}" alt="{{ $product->name }}" width="30px"></td> --}}
-                          <td class=" py-4 text-center"><img src="/{{$product->image}}" alt="{{ $product->name }}" width="30px"></td>
+                          <td class=" py-4 text-center"><img src="/images/{{$product->image}}" alt="{{ $product->name }}" width="30px"></td>
                           @endforeach
                               <td class=" py-4 text-center">
                               @foreach ($orderline->product_addons as $addons)

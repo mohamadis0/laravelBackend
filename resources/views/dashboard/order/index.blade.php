@@ -1,9 +1,17 @@
 
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+    <div class="flex justify-between items-center">
+      <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
         {{ __('Order') }}
     </h2>
+      <form action="{{route('order.create')}}" method="GET">
+        <div class="text-center">
+            <button type="submit" class=" bg-blue-500 py-2 rounded-full text-white text-sm font-bold px-5 " >New  Order</button>
+    
+        </div>
+    </form>
+    </div>
 </x-slot>
 @if ($message = Session::get('message'))
      <div class="bg-blue-100 border border-blue-400 text-black-700 px-4 py-3 rounded relative" role="alert">

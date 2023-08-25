@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::table('orders', function (Blueprint $table) {
             $table->foreignId('client_id')->constrained(table:"clients");
-            $table->foreignId('payment_id')->unique()->constrained(table:"payments");
+            $table->foreignId('payment_id')->constrained(table:"payments");
         });
     }
 

@@ -23,21 +23,26 @@
     <div class="flex flex-col  items-center justify-center mt-10">
         <form action="{{ route('order.store') }}" method="post" >
             @csrf
-            <div class="mb-4">
-                <label class="form-label">Products:</label><br />
-                <select name="product" class="w-full rounded-lg" id="">
-                    @foreach ($products as $product)
-                        <option value="{{ $product->id }}">{{ $product->name }}</option>
-                    @endforeach
-                </select>
-            </div>
+                {{-- <div class="mb-4">
+                    <label class="form-label">Products:</label><br />
+                    <select name="product" class="w-full rounded-lg" id="" >
+                        @foreach ($products as $product)
+                            <option value="{{ $product->id }}">{{ $product->name }}</option>
+                        @endforeach
+                    </select>
+                </div> --}}
+                <div class="mb-4">
+                    <label for="" class="form-label font-bold text-2xl">{{$product->name}}</label>
+                </div>
+                
+            
             <div class="mab-4">
-                <label for="" class="form-labe">Quantity</label><br>
+                <label for="" class="form-label">Quantity</label><br>
                 <input type="number" name="quantity" id="">
             </div>
             <div class="mb-4">
                 <label class="form-label">Add Ons:</label><br>
-                @foreach ($addons as $addon)
+                @foreach ($product->addons as $addon)
                 <label class="checkbox-inline">
                     <input type="checkbox" name="add[]" value="{{ $addon->id }}"> {{ $addon->name }}
                 </label>
@@ -45,7 +50,7 @@
             </div>
             <div class="mb-4">
                 <label class="form-label">Removes:</label><br>
-                @foreach ($removes as $remove)
+                @foreach ($product->removables as $remove)
                 <label class="checkbox-inline">
                     <input type="checkbox" name="remove[]" value="{{ $remove->id }}"> {{ $remove->name }}
                 </label>
@@ -56,4 +61,6 @@
             class=" bg-blue-300 text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4 mt-8">create order</button>
     </form>
 </div>
+
+
 </x-app-layout>

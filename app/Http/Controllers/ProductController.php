@@ -220,4 +220,12 @@ class ProductController extends Controller
         
         return redirect()->route("products.index")->with('success',"Product deleted successfuly");
     }
+
+    public function getAddons($productId)
+{
+    $product = Product::find($productId);
+    $addons = $product->addons;
+    
+    return response()->json($addons);
+}
 }
