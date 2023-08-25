@@ -1,10 +1,21 @@
 
 <x-app-layout>
   <x-slot name="header">
-    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
+    <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
         {{ __('Order') }}
     </h2>
 </x-slot>
+@if ($message = Session::get('message'))
+     <div class="bg-blue-100 border border-blue-400 text-black-700 px-4 py-3 rounded relative" role="alert">
+       
+        <span class="block sm:inline">  <ul>
+            <li class="text-center">
+                {{$message}} 
+            </li>
+            </ul></span>
+        
+      </div>
+     @endif
   <div class="container">
     <div class="flex flex-col">
       <div class="overflow-x-auto sm:-mx-6 lg:-mx-8">
@@ -32,7 +43,10 @@
                     <td class="whitespace-nowrap px-6 py-4">{{$order->created_at}}</td>
                     <td class="whitespace-nowrap px-6 py-4">{{$order->ordered_date}}</td>
                     <td class="whitespace-nowrap px-6 py-4 text-center">
-                      <a href="{{ route('order.show', $order->id) }}" class=" bg-[#af0433] text-lg rounded-lg hover:bg-opacity-10  text-white w-full h-10 mb-4 px-6 py-2" >
+                      <a href="{{ route('orderDetails.show', $order->id) }}" class=" bg-[#af0433] text-lg rounded-lg hover:bg-opacity-10  text-white w-full h-10 mb-4 px-6 py-2" >
+                        More Details
+                      </a>
+                      <a href="{{ route('order.show', $order->id) }}" class=" bg-blue-300 text-lg rounded-lg hover:bg-opacity-10  text-white w-full h-10 mb-4 px-6 py-2" >
                         More Details
                       </a>
                     </td>

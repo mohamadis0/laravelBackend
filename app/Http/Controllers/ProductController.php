@@ -12,18 +12,21 @@ class ProductController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
-
+    public function index(Request $request)
     {
+        $filter = $request->input('filter');
     
-        $products=Product::where('feature','product')->get();
-       
-        return view('products.index',compact('products'));
-
+        $query = Product::query();
     
-     
-
+        if ($filter) {
+            $query->where('feature', $filter);
+        }
+    
+        $products = $query->get();
+    
+        return view('products.index', compact('products'));
     }
+    
 
     /**
      * Show the form for creating a new resource.
@@ -32,12 +35,13 @@ class ProductController extends Controller
 
     
     {
-      $addons=Product::where('feature','add-on')->get()->pluck('name','id');
-    $remove=Product::where('feature','remove')->get()->pluck('name','id');
+    
      $categories=Category::pluck('name','id');
+      $addons=Product::where('feature','ingredient')->get()->pluck('name','id');
+    
      $tags=Tag::pluck('name','id');
-     
-     return view('products.create',compact('categories','tags','remove','addons'));
+     $ingredients=Product::where('feature','ingredient')->get()->pluck('name','id');
+     return view('products.create',compact('categories','tags','addons','ingredients'));
 
     }
 
@@ -47,25 +51,24 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        
+        //   dd($request->all());
 
         $request->validate([
             'name'=>'required',
             'description'=>'required',
             'price'=>'required',
-            'image'=>'required|image|mimes:jpeg,png,svg|max:2048',
+             'image'=>'required|image|mimes:jpeg,png,svg|max:2048',
             'quantity'=>'required',
             'feature'=>'required',
             'category_id'=>'required',
             'tags' => 'array',
-             'remove'=>'array',
-             'add'=>'array',
+            'add'=>'array',
+            'ingredient' => 'array',
+            'ingredient_removable' => 'array',
+            'ingredient_removable.*' => 'boolean',
         ]);
         $input=$request->all();
-        $combinedRelatedProducts = array_merge(
-            $request->input('add', []),
-            $request->input('remove', [])
-          );
+       
         if($image=$request->file('image')){
             $destinationPath='images/';
             $productImage=date('YmdHis').".".$image->getClientOriginalExtension();
@@ -81,12 +84,28 @@ class ProductController extends Controller
        
         $product->tags()->attach($tags); 
     }
-    if ( $combinedRelatedProducts) {
-        $product->relatedProducts()->attach($combinedRelatedProducts);
+    if ($add=$request->input('add')) {
+        $product->addons()->attach($add);
     }
-
-   
-
+    
+    if ($request->has('ingredient')) {
+        $ingredients = $request->input('ingredient');
+        $ingredientRemovable = $request->input('ingredient_removable', []);
+    
+        foreach ($ingredients as $ingredientId => $value) {
+            // Check if the ingredient ID exists and is removable
+            if (isset($ingredientRemovable[$ingredientId])) {
+                $removable = $ingredientRemovable[$ingredientId] == 1;
+            } else {
+                $removable = false;
+            }
+    
+            // Attach the ingredient to the product and store the "removability" status
+            $product->ingredients()->attach($ingredientId, ['removable' => $removable]);
+        }
+    }
+    
+    
         return redirect()->route("products.index")->with('success',"Product added successfuly");
 
     }
@@ -103,11 +122,13 @@ class ProductController extends Controller
      * Show the form for editing the specified resource.
      */
     public function edit(Product $product)
-    {   $addons=Product::where('feature','add-on')->get()->pluck('name','id');
-        $remove=Product::where('feature','remove')->get()->pluck('name','id');
-        $tags=Tag::pluck('name','id');
-         $categories=Category::pluck('name','id');
-        return view('products.edit',compact('product','categories','tags','addons','remove'));
+    {    
+        $categories=Category::pluck('name','id');
+        $addons=Product::where('feature','ingredient')->get()->pluck('name','id');
+      
+       $tags=Tag::pluck('name','id');
+       $ingredients=Product::where('feature','ingredient')->get()->pluck('name','id');
+        return view('products.edit',compact('product','categories','tags','ingredients','addons'));
     }
 
     /**
@@ -124,15 +145,12 @@ class ProductController extends Controller
             'feature' => 'required',
             'tags' => 'array',
             'add' => 'array',
-            'remove' => 'array',
         ]);
     
-        $input = $request->except('tags','add','remove'); // Exclude tags from the update input
-        $combinedRelatedProducts = array_merge(
-            $request->input('add', []),
-            $request->input('remove', [])
-          );
-      
+        // Prepare the input data, excluding 'tags', 'add', and 'remove' fields
+        $input = $request->except('tags', 'add', 'remove');
+    
+        // Handle the uploaded image, if provided
         if ($image = $request->file('image')) {
             $destinationPath = 'images/';
             $productImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
@@ -142,26 +160,41 @@ class ProductController extends Controller
             unset($input['image']);
         }
     
+        // Update the product with the new input data
         $product->update($input);
     
+        // Sync or detach tags based on the provided input
         if ($request->has('tags')) {
             $tags = $request->input('tags');
-           
-            // Sync the selected tags to the product
-           
-            $product->tags()->sync($tags); 
+            $product->tags()->sync($tags);
         } else {
-            // If no tags are provided, detach all tags from the product
             $product->tags()->detach();
         }
-        if ( $combinedRelatedProducts) {
-            $product->relatedProducts()->sync($combinedRelatedProducts);
-        }
-        else{
+    
+        // Sync or detach addons based on the provided input
+        if ($add = $request->input('add')) {
+            $product->addons()->sync($add);
+        } else {
             $product->relatedProducts()->detach();
         }
-        
     
+        // Handle ingredients and their removability
+        $ingredients = $request->input('ingredient', []);
+        $ingredientRemovable = $request->input('ingredient_removable', []);
+    
+        foreach ($ingredients as $ingredientId => $value) {
+            // Check if the ingredient ID exists and is removable
+            if (isset($ingredientRemovable[$ingredientId])) {
+                $removable = $ingredientRemovable[$ingredientId] == 1;
+            } else {
+                $removable = false;
+            }
+    
+            // Attach the ingredient to the product and store the "removability" status
+            $product->ingredients()->syncWithoutDetaching([$ingredientId => ['removable' => $removable]]);
+        }
+    
+        // Return a redirect response with a success message
         return redirect()->route("products.index")->with('success', "Product updated successfully");
     }
     

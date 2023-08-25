@@ -5,7 +5,10 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
-class TagProduct extends Model
+class Ingredient extends Model
 {
-    use HasFactory;
+    protected $table = 'ingredients';
+    protected $fillable = [
+        'removable',
+    ];
 }

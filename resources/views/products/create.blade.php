@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight ">
             {{ __('Products') }}
         </h2>
     </x-slot>
@@ -32,93 +32,132 @@
         <form action="{{ route('products.store') }}" method="post" enctype="multipart/form-data">
             @csrf
             <div class="mb-3 ">
+                <label for="name">Name:</label>
                 <input placeholder="Name" type="text" name="name" class="w-full rounded-lg">
             </div>
             <div class="mb-3">
+                <label for="description">Description:</label>
                 <textarea name="description" id="" class="w-full rounded-lg"></textarea>
             </div>
             <div class="mb-3">
+                <label for="price">Price:</label>
                 <input placeholder="Price" type="number" name="price" class="w-full rounded-lg">
             </div>
             <div class="mb-3">
+                <label for="image">Image:</label>
                 <input placeholder="Image" type="file" name="image" class="w-full rounded-lg">
             </div>
             <div class="mb-3">
+                <label for="quantity">Quantity:</label>
                 <input placeholder="Quantity" type="number" name="quantity" class="w-full rounded-lg">
             </div>
             <div class="mb-3">
+                <label for="feature">Feature:</label>
                 <select placeholder="Feature" type="text" name="feature" class="w-full rounded-lg">
-                    <option value="add-on"> Add ON</option>
                     <option value="product">Product</option>
-                    <option value="remove">Remove</option>
+                    <option value="ingredient">Ingredient</option>
                 </select>
             </div>
-            <div class="mb-3">
+            <div id="categorySection" class="mb-3">
+                <label for="category">categoryName:</label>
                 <select name="category_id" class="w-full rounded-lg" id="">
                     @foreach ($categories as $categoryId => $categoryName)
                         <option value="{{ $categoryId }}">{{ $categoryName }}</option>
                     @endforeach
                 </select>
             </div>
-            <div class="mb-3">
+            <div  id="tagsSection" class="mb-3">
                 <label class="form-label">Tags:</label>
-                @foreach ($tags as $tagId => $tagName)
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="tags[]" value="{{ $tagId }}"> {{ $tagName }}
-                    </label>
-                @endforeach
+              
+                <select name="tags[]" multiple class="w-full rounded-lg">
+                    @foreach ($tags as $tagId =>  $tagName )
+                        <option value="{{ $tagId }}">{{ $tagName }}</option>
+                    @endforeach
+                </select>
                 {{-- add Tag from product page --}}
                 <a class=" bg-transparent  border-0  " style="padding: 5px" href="{{ route('tags.create') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#af0433"
-                        class="bi bi-plus-square" viewBox="0 0 16 16">
-                        <path
-                            d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                        <path
-                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                    </svg>
+                    <button type="button"
+                class=" bg-[#af0433] text-sm rounded-lg hover:bg-transparent w-full   mb-10 p-2">add
+                tag</button>
 
                 </a>
             </div>
-            <div class="mb-3">
+            <div id="addonsSection" class="mb-3">
                 <label class="form-label">Add Ons:</label>
-                @foreach ($addons as $addId => $addName)
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="add[]" value="{{ $addId }}"> {{ $addName }}
-                    </label>
-                @endforeach
+                <select name="add[]" multiple class="w-full rounded-lg">
+                    @foreach ($addons as $addId => $addName)
+                        <option value="{{ $addId }}">{{ $addName }}</option>
+                    @endforeach
+                </select>
                 {{-- add addon from product page --}}
-                <a class=" bg-transparent  border-0  " style="padding: 5px" href="{{ route('products.create') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#af0433"
-                        class="bi bi-plus-square" viewBox="0 0 16 16">
-                        <path
-                            d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                        <path
-                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                    </svg>
-
-                </a>
+                
             </div>
-            <div class="mb-3">
-                <label class="form-label">Remove:</label>
-                @foreach ($remove as $removeId => $removeName)
-                    <label class="checkbox-inline">
-                        <input type="checkbox" name="remove[]" value="{{ $removeId }}"> {{ $removeName }}
-                    </label>
-                @endforeach
-                {{-- add remove from product page --}}
-                <a class=" bg-transparent  border-0  " style="padding: 5px" href="{{ route('products.create') }}">
-                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#af0433"
-                        class="bi bi-plus-square" viewBox="0 0 16 16">
-                        <path
-                            d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-                        <path
-                            d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-                    </svg>
-
-                </a>
+            
+            
+            <div id="ingredientsSection" class="mb-3">
+                <label class="form-label">Ingredients:</label>
+                <table class="container table w-full overflow-auto border bg-white h-20">
+                    <thead>
+                        <tr>
+                            <th>Ingredient</th>
+                            <th>Removable</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @foreach ($ingredients as $ingredientId => $ingredientName)
+                            <tr>
+                                <td class="text-center">
+                                    <label class="checkbox-inline">
+                                        <input type="checkbox" name="ingredient[{{ $ingredientId }}]" value="{{ $ingredientId }}">
+                                        {{ $ingredientName }}
+                                    </label>
+                                </td>
+                                <td class="text-center">
+                                    <input type="checkbox" name="ingredient_removable[{{ $ingredientId }}]" value="1">
+                                </td>
+                            </tr>
+                        @endforeach
+                    </tbody>
+                </table>
+                <a class="bg-transparent border-0" style="padding: 5px" href="{{ route('products.create') }}">
+                    <button type="button" class=" bg-[#af0433] text-sm rounded-lg hover:bg-transparent w-full   mt-2 p-1"> add ingredient</button>
+                  </a>
             </div>
+            
+            
+            
+            
+            
             <button type="submit"
-                class=" bg-[#af0433] text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4">create product</button>
+                class=" bg-[#af0433] text-lg rounded-lg hover:bg-transparent w-full   mb-10 p-2">create
+                product</button>
         </form>
     </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const featureDropdown = document.querySelector('select[name="feature"]');
+            const addonsSection = document.getElementById('addonsSection');
+            const tagsSection = document.getElementById('tagsSection');
+            const ingredientsSection = document.getElementById('ingredientsSection');
+           
+            
+            function showSections(selectedFeature) {
+                addonsSection.style.display = selectedFeature === 'product' ? 'block' : 'none';
+                tagsSection.style.display = selectedFeature === 'product' ? 'block' : 'none';
+                ingredientsSection.style.display = selectedFeature === 'product' ? 'block' : 'none';
+              
+            }
+            
+            featureDropdown.addEventListener('change', function () {
+                const selectedFeature = this.value;
+                showSections(selectedFeature);
+            });
+    
+            // Call showSections initially to set the correct display
+            showSections(featureDropdown.value);
+        });
+    </script>
+    
+    
+    
 </x-app-layout>

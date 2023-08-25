@@ -1,6 +1,6 @@
 <x-app-layout>
     <x-slot name="header">
-        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight text-center">
+        <h2 class="font-semibold text-xl text-gray-800 dark:text-gray-200 leading-tight">
             {{ __('Products') }}
         </h2>
     </x-slot>
@@ -18,79 +18,104 @@
             </span>
         </div>
     @endif
-    <a class=" bg-transparent border-0  " style="padding: 10px" href="{{ route('products.create') }}">
-        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#af0433" class="bi bi-plus-square"
-            viewBox="0 0 16 16">
-            <path
-                d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
-            <path
-                d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
-        </svg>
+    <div class="flex flex-row items-center justify-between">
+        <a class=" bg-transparent border-0  " style="padding: 5px" href="{{ route('products.create') }}">
+            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" fill="#af0433"
+                class="bi bi-plus-square" viewBox="0 0 16 16">
+                <path
+                    d="M14 1a1 1 0 0 1 1 1v12a1 1 0 0 1-1 1H2a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1h12zM2 0a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V2a2 2 0 0 0-2-2H2z" />
+                <path
+                    d="M8 4a.5.5 0 0 1 .5.5v3h3a.5.5 0 0 1 0 1h-3v3a.5.5 0 0 1-1 0v-3h-3a.5.5 0 0 1 0-1h3v-3A.5.5 0 0 1 8 4z" />
+            </svg>
 
-    </a>
+        </a>
+        <form action="{{ route('products.index') }}" method="GET" class="mb-4 p-1 ">
+            <label for="filter">Filter by Feature:</label>
+            <select name="filter" id="filter" class="px-2 py-1 border rounded">
+                <option value="">All</option>
+                <option value="product">Products</option>
+                <option value="ingredient">Ingredients</option>
+            </select>
+            <button type="submit"
+                class=" bg-[#af0433] text-sm rounded-lg hover:bg-transparent w-full   mt-10 p-2">Apply Filter</button>
+        </form>
+
+    </div>
     <table class=" container table w-full overflow-auto border bg-white">
 
         <thead>
             <tr class=" text-center p-5">
                 <th class="px-6 py-4">Id</th>
-                <th  class="px-6 py-4">Name</th>
-                <th  class="px-6 py-4">Description</th>
-                <th  class="px-6 py-4">Price</th>
-                <th  class="px-6 py-4">Image</th>
-                <th  class="px-6 py-4">Quantity</th>
+                <th class="px-6 py-4">Name</th>
+                <th class="px-6 py-4">Description</th>
+                <th class="px-6 py-4">Price</th>
+                <th class="px-6 py-4">Image</th>
+                <th class="px-6 py-4">Quantity</th>
 
-                <th  class="px-6 py-4">add ons </th>
-                <th  class="px-6 py-4">remove</th>
-                <th  class="px-6 py-4">Category</th>
-                <th  class="px-6 py-4">Tags</th>
-                <th  class="px-6 py-4">Edit</th>
-                <th  class="px-6 py-4">Del</th>
+                @if ($products->firstWhere('feature', 'product'))
+                    <th class="px-6 py-4">Ingredients</th>
+                    <th class="px-6 py-4">Addons</th>
+                    <th class="px-6 py-4">Category</th>
+                    <th class="px-6 py-4">Tags</th>
+                @endif
+                <th class="px-6 py-4">Edit</th>
+                <th class="px-6 py-4">Del</th>
             </tr>
         </thead>
         <tbody>
             @foreach ($products as $item)
                 <tr key={{ $item->id }} class=" text-center">
-                    <td  class="px-6 py-4">{{ $item->id }}</td>
-                    <td  class="px-6 py-4">{{ $item->name }}</td>
-                    <td  class="px-6 py-4">{{ $item->description }}</td>
-                    <td  class="px-6 py-4">{{ $item->price }}</td>
-                    <td  class="px-6 py-4">
+                    <td class="px-6 py-4">{{ $item->id }}</td>
+                    <td class="px-6 py-4">{{ $item->name }}</td>
+                    <td class="px-6 py-4">{{ $item->description }}</td>
+                    <td class="px-6 py-4">{{ $item->price }}</td>
+                    <td class="px-6 py-4">
                         <img src="/images/{{ $item->image }}" alt="{{ $item->name }}" width="30px">
                     </td>
-                    <td  class="px-6 py-4">{{ $item->quantity }}</td>
+                    <td class="px-6 py-4">{{ $item->quantity }}</td>
 
-                    <td  class="px-6 py-4">
-                        @foreach ($item->relatedProducts()->where('feature', 'add-on')->get() as $addOn)
-                            {{ $addOn->name }},
+                   
+
+                    @if ($products->firstWhere('feature', 'product'))
+                      
+                      @if (is_iterable($item->ingredients))
+                      <td class="px-6 py-4">
+                        @foreach ($item->ingredients as $ingredient)
+                            {{ $ingredient->name }},
                         @endforeach
                     </td>
-                    <td  class="px-6 py-4">
-                        @foreach ($item->relatedProducts()->where('feature', 'remove')->get() as $remove)
-                            {{ $remove->name }},
-                        @endforeach
-                    </td>
+                        @else
+                            <td></td>
+                        @endif
 
+                        @if (is_iterable($item->addons))
+                            <td class="px-6 py-4">
+                                @foreach ($item->addons as $addon)
+                                    {{ $addon->name }},
+                                @endforeach
+                            </td>
+                        @else <td></td>
+                        @endif
 
-                    <td  class="px-6 py-4">{{ $item->category->Name }}</td>
-                    <td  class="px-6 py-4">
-                        @foreach ($item->tags as $tag)
-                            {{ $tag->name . ',' }}
-                        @endforeach
-                    </td>
-                    <td  class="px-6 py-4">
-                        <a class=" bg-white  border-0 text-red  " href="{{ route('products.edit', $item->id) }}">
-                            <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="green"
-                                class="bi bi-pencil" viewBox="0 0 16 16">
-                                <path
-                                    d="M12.146.146a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1 0 .708l-10 10a.5.5 0 0 1-.168.11l-5 2a.5.5 0 0 1-.65-.65l2-5a.5.5 0 0 1 .11-.168l10-10zM11.207 2.5 13.5 4.793 14.793 3.5 12.5 1.207 11.207 2.5zm1.586 3L10.5 3.207 4 9.707V10h.5a.5.5 0 0 1 .5.5v.5h.5a.5.5 0 0 1 .5.5v.5h.293l6.5-6.5zm-9.761 5.175-.106.106-1.528 3.821 3.821-1.528.106-.106A.5.5 0 0 1 5 12.5V12h-.5a.5.5 0 0 1-.5-.5V11h-.5a.5.5 0 0 1-.468-.325z" />
-                            </svg>
+                        <td class="px-6 py-4">{{ $item->category->Name }}</td>
+                        <td class="px-6 py-4">
+                            @foreach ($item->tags as $tag)
+                                {{ $tag->name . ',' }}
+                            @endforeach
+                        </td>
+                    @endif
+
+                    <td class="px-6 py-4">
+                        <a class="bg-green-100 text-lg rounded-lg hover:bg-transparent w-full p-2 mb-4"
+                            href="{{ route('products.edit', $item->id) }}">
+                            edit
                         </a>
                     </td>
-                    <td  class="px-6 py-4">
-                        <form action="{{ route('products.destroy', $item->id) }}" method="POST">
+                    <td class="px-6 py-4">
+                        <form id="delete-form" action="{{ route('products.destroy', $item->id) }}" method="POST">
                             @csrf
                             @method('DELETE')
-                            <button class=" bg-white  border-0" type="submit">
+                            <button class="bg-white border-0" type="button" onclick="confirmDelete()">
                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red"
                                     class="bi bi-trash3" viewBox="0 0 16 16">
                                     <path
@@ -99,6 +124,15 @@
                             </button>
                         </form>
                     </td>
+
+                    <script>
+                        function confirmDelete() {
+                            if (confirm("Are you sure you want to delete this product?")) {
+                                document.getElementById("delete-form").submit();
+                            }
+                        }
+                    </script>
+
                 </tr>
             @endforeach
         </tbody>

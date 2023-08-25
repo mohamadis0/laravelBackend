@@ -2,10 +2,15 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Client;
 use App\Models\Coupon;
 use App\Models\Order;
 use App\Models\OrderDetails;
+use App\Models\OrderLine;
 use App\Models\Payment;
+use App\Models\Product;
+use App\Models\ProductAddon;
+use App\Models\ProductProductAddon;
 use Illuminate\Http\Request;
 
 class OrderController extends Controller
@@ -25,7 +30,12 @@ class OrderController extends Controller
 
     public function create()
     {
-        return view('dashboard.order.addOrder');
+        $product = Product::find(1);
+        $products = Product::where('feature','product')->get();
+        $addons= $product->addons;
+        $removes = $product->removables;
+        return view('dashboard.order.create',compact('products','addons','removes'));
+        // dd($addons);
     }
 
     /**
@@ -33,27 +43,92 @@ class OrderController extends Controller
      */
     public function store(Request $request)
     {
-       Order::create([
-        'status'=>'draft',
-        'order_date'=>'2023-08-23',
-        'client_id'=>auth()->user()->id,
-        'payment_id'=>Payment::where('name',$request->payment_method)->value('id'),
-        'coupon_id'=>Coupon::where('code',$request->coupon_code)->value('id'),
-       ]);
-       return redirect('/');
+        $request->validate([
+            'product' => 'required|exists:products,id',
+            'quantity' => 'required',
+            'add' => 'array',
+        ]);
+    
+        $user_id = auth()->user()->id;
+        $productId = $request->input('product');
+        $quantity = $request->input('quantity');
+        $addons = $request->input('add', []);
+    
+        $available_order = Order::where('client_id', $user_id)
+            ->where('status', 'draft')
+            ->latest('id')
+            ->first();
+    
+        if (!$available_order) {
+            $available_order = Order::create([
+                'status' => 'draft',
+                'ordered_date' => '2023-08-23',
+                'client_id' => $user_id,
+                'payment_id' => 1,
+                'coupon_id' => 1,
+            ]);
+        }
+        $old_product = OrderLine::where('product_id',$productId)->first();
+        // if(!$old_product){
+            $orderLine = OrderLine::create([
+                'order_id' => $available_order->id,
+                'product_id' => $productId,
+                'quantity' => $quantity,
+            ]);
+            $orderLine->products()->attach(['product_id'=>$productId],['order_line_id'=>$orderLine->id]);
+        
+            
+    
+            foreach ($addons as $product_id) {
+                $product_addon = ProductAddon::create([
+                    'order_line_id' => $orderLine->id,
+                ]);
+                // $productAddon_id = $product_addon->id;
+                // $product_addon->products()->attach($product_id, ['productAddon_id' => $product_addon->id]);
+                // ProductProductAddon::create([
+                //     'product_id'=>$product_id,
+                //     'product_addon_id'=>$product_addon->id
+                // ]);
+                // $product_addon->products()->attach(['product_id'=>$productId],['product_addon_id'=>$product_id]);\
+                ProductProductAddon::create([
+                    'product_id'=>$product_id,
+                    'product_addon_id'=>$product_addon->id,
+                ]);
+            }
+        
+            return redirect()->route('order.index')->with('message', 'product added to order');
+        // }
+
+        // return redirect()->route('order.index')->with('message', 'aleready added');
+    
+        
+    
+        
+        
+       
     }
 
     /**
      * Display the specified resource.
      */
-    public function show($order_id)
+    public function show(Order $order)
     {
-        $order_details = OrderDetails::where('order_id',$order_id)->first();
-        if (!$order_details) {
-            return redirect()->route('orderDetails.index')->with('message','No Details For This Order');
-        } 
-        return view('dashboard.order.showOrderDetails')->with('orderDetails',$order_details);
+    $products = $order->products;
+    $orderlines = OrderLine::where('order_id',$order->id)->get();
+    
+    // foreach($orderlines as $orderline){
+    //     $addons = $orderline->product_addons;
+    //     foreach($addons as $addon){
+    //         $products = $addon->products;
+    //         foreach($products as $product){
+    //             echo $product->name;
+    //         }
+    //     }
+    // }
+    return view('dashboard.order.products',compact('orderlines','order','products'));
+    
     }
+
 
     /**
      * Show the form for editing the specified resource.

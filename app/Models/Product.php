@@ -26,20 +26,43 @@ class Product extends Model
         return $this->belongsTo(Category::class);
        }
     public function orders(){
-        return $this->belongsToMany(Order::class);
+        return $this->belongsToMany(Order::class,table:"order_lines");
     }   
-    public function mainProducts()
+    public function ingredientMainProducts()
     {
-        return $this->belongsToMany(Product::class, 'product_products', 'related_product_id', 'main_product_id');
+        return $this->belongsToMany(Product::class, 'ingredients', 'ingredient_id', 'product_id');
     }
 
-    public function relatedProducts()
+    public function ingredients()
     {
-        return $this->belongsToMany(Product::class, 'product_products', 'main_product_id', 'related_product_id');
+        return $this->belongsToMany(Product::class, 'ingredients', 'product_id', 'ingredient_id')->withPivot('removable');
+    }
+
+    public function addonMainProducts()
+    {
+        return $this->belongsToMany(Product::class, 'addons', 'addon_id', 'product_id');
+    }
+
+    public function addons()
+    {
+        return $this->belongsToMany(Product::class, 'addons', 'product_id', 'addon_id');
+    }
+
+    public function removables()
+    {
+        return $this->belongsToMany(Product::class, 'ingredients', 'product_id', 'ingredient_id')
+            ->wherePivot('removable', 1);
+    }
+
+    public function productAddons()
+    {
+        return $this->belongsToMany(ProductAddon::class,table:'product_product_addons');
     }
     
-    public function addon_product()
-    {
-        return $this->hasOne(ProductAddon::class);
-    }
+    public function orderLine()
+{
+    return $this->belongsToMany(OrderLine::class,table:'product_orderlines');
+}
+    
+    
 }
