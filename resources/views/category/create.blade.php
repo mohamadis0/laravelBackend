@@ -9,7 +9,7 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800 overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100">
-                   <form action="{{route("category.store")}}" method="POST">
+                   <form action="{{route("category.store")}}" method="POST" enctype="multipart/form-data">
                     @csrf
                     @method('POST')
                     <div>
@@ -18,7 +18,10 @@
                     </div>
                     <div>
                         <x-input-label for="category" :value="__('Icon')" />
-                        <x-text-input id="category" class="block mt-1 w-full" type="text" name="Icon" :value="old('name')" required autofocus autocomplete="username" />
+                        <div class="mb-3">
+                            <input placeholder="Image" type="file" name="Icon" class="w-full rounded-lg">
+                        </div>
+                        {{-- <x-text-input id="category" class="block mt-1 w-full" type="file" name="Icon" :value="old('name')" required autofocus autocomplete="username" /> --}}
                     </div>
                    
                     <button type="submit" class="bg-green-500 w-full ">Submit</button>

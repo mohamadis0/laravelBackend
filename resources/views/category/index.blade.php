@@ -36,7 +36,9 @@
                     class="border-b bg-neutral-100 dark:border-neutral-500 dark:bg-neutral-700">
                     <td class="whitespace-nowrap px-6 py-4 font-medium">{{$category->id}}</td>
                     <td class="whitespace-nowrap px-6 py-4">{{$category->Name}}</td>
-                    <td class="whitespace-nowrap px-6 py-4">{{$category->Icon}}</td>
+                    <td  class="px-6 py-4">
+                      <img src="/images/{{ $category->Icon }}" alt="{{ $category->Icon }}" width="30px">
+                  </td>
                   <td>
                     <form action="{{ route('category.destroy', $category->id) }}" method="POST">
                       @csrf
