@@ -35,10 +35,7 @@ class CategoryController extends Controller
         ]);
 
         $input=$request->all();
-        $combinedRelatedProducts = array_merge(
-            $request->input('add', []),
-            $request->input('remove', [])
-          );
+        
          
         if($image=$request->file('Icon')){
             
@@ -77,9 +74,21 @@ class CategoryController extends Controller
      */
     public function update(Request $request, Category $category)
     {
-       
+        $input=$request->all();
+        // dd($input);
+        $image=$request->file('Icon');
+        // dd($image);
+        if($image=$request->file('Icon')){
+            // dd($image);
+            $destinationPath='images/';
+            $productImage=date('YmdHis').".".$image->getClientOriginalExtension();
+            $image->move($destinationPath,$productImage);
+            $input['Icon']="$productImage";
+        }else {
+            unset($input['Icon']);
+        }
 
-      $input=$request->all();
+    //   dd($input);
        $category->update($input);
 
         return redirect()->route('category.index')->with('success', 'Data saved successfully');

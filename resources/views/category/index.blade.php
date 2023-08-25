@@ -43,7 +43,7 @@
                     <form action="{{ route('category.destroy', $category->id) }}" method="POST">
                       @csrf
                       @method('DELETE')
-                      <button class=" bg-white  border-0" type="submit">
+                      <button class=" bg-white  border-0" type="submit" onclick="return confirm('Are you sure you want to delete this record?')">
                           <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="red"
                               class="bi bi-trash3" viewBox="0 0 16 16">
                               <path

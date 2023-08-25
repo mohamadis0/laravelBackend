@@ -9,9 +9,9 @@
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white dark:bg-gray-800  overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 text-gray-900 dark:text-gray-100 ">
-                   <form action="{{route("client.store")}}" method="POST">
+                   <form action="{{route("client.update", $client->id)}}" method="POST">
                     @csrf
-                    @method('POST')
+                    @method('PUT')
                     <div>
                         
                         <x-input-label for="client" :value="__('Email')" />
