@@ -68,7 +68,7 @@ class OrderController extends Controller
                 'status' => 'draft',
                 'ordered_date' => '2023-08-23',
                 'client_id' => $user_id,
-                'payment_id' => 2,
+                'payment_id' => 1,
                 'coupon_id' => 1,
             ]);
         }
