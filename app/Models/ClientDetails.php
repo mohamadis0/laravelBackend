@@ -16,7 +16,7 @@ class ClientDetails extends Model
         'lname',
         'company_name',
         'country',
-        'town',
+        'city',
         'state',
         'zip',
         'client_id'
