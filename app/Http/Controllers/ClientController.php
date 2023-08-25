@@ -107,10 +107,33 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Client $client)
-    {
-        $input=$request->all();
-        $client->update($input);
- 
+    { $validatedUser = $request->validate([
+        'name' => 'required', 
+        'email' => 'required|email',
+        'password' => 'required',
+    ]);
+    // dd($validatedUser);
+    $validatedClient= $request->validate([
+       'contact'=>'required'
+    ]);
+    // dd($validatedClient);
+    $validatedClientDetails = $request->validate([
+        'fname' => 'required', 
+        'lname' => 'required',
+        'company_name' => 'required',
+        'country' => 'required', 
+        'city' => 'required',
+        'state' => 'required',
+        'zip' => 'required',
+    ]);
+    
+        $client->update($validatedClient);
+         $client->clientDetails()->update($validatedClientDetails);
+         $client->user()->update($validatedUser);
+        
+        $client->adress()->update([
+            'name'=>$request->input('addname')
+         ]);
          return redirect()->route('client.index')->with('success', 'Data saved successfully');
      
     }
