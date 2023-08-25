@@ -14,6 +14,10 @@ class OrderLine extends Model
     {
         return $this->hasMany(ProductAddon::class);
     }
+    public function product_removes()
+    {
+        return $this->hasMany(ProductRemove::class);
+    }
     public function products()
     {
         return $this->belongsToMany(Product::class,table:'product_orderlines');
