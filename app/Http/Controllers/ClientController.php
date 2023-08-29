@@ -7,7 +7,8 @@ use App\Models\Client;
 use App\Models\ClientDetails;
 use App\Models\User;
 use Illuminate\Http\Request;
-
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
 
 class ClientController extends Controller
 {
@@ -34,13 +35,13 @@ class ClientController extends Controller
     {
         // dd('bob');
         $validatedUser = $request->validate([
-            'name' => 'required', 
-            'email' => 'required|email',
-            'password' => 'required',
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255', 'unique:'.User::class],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
         ]);
         // dd($validatedUser);
         $validatedClient= $request->validate([
-           'contact'=>'required'
+            'contact'=>['required', 'integer'],
         ]);
         // dd($validatedClient);
         $validatedClientDetails = $request->validate([
@@ -107,14 +108,15 @@ class ClientController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Client $client)
-    { $validatedUser = $request->validate([
-        'name' => 'required', 
-        'email' => 'required|email',
-        'password' => 'required',
-    ]);
+    {
+         $request->validate([
+            'name' => ['required', 'string', 'max:255'],
+            'email' => ['required', 'string', 'email', 'max:255'],
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
     // dd($validatedUser);
     $validatedClient= $request->validate([
-       'contact'=>'required'
+       'contact'=>['required', 'string', 'max:255'],
     ]);
     // dd($validatedClient);
     $validatedClientDetails = $request->validate([
@@ -129,7 +131,11 @@ class ClientController extends Controller
     
         $client->update($validatedClient);
          $client->clientDetails()->update($validatedClientDetails);
-         $client->user()->update($validatedUser);
+         $client->user()->update([
+            'name' => $request->name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+        ]);
         
         $client->adress()->update([
             'name'=>$request->input('addname')
