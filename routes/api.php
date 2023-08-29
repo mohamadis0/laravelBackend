@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\ProductController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
@@ -19,3 +20,10 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
 Route::resource('/products',ProductController::class);
+
+Route::group(['prefix'=>'order'],function(){
+    Route::post('/draft',[OrderController::class,'create']);
+    Route::post('/addDetails',[OrderController::class,'placeOrder']);
+    Route::get('/products',[OrderController::class,'products']);
+    Route::delete('/remove-product/{product}',[OrderController::class,'removeProduct']);
+});

@@ -14,7 +14,9 @@ class Order extends Model
         'ordered_date',
         'client_id',
         'payment_id',
-        'coupon_id'
+        'coupon_id',
+        'total',
+        'total_discounted',
     ];
     public function products(){
         return $this->belongsToMany(Product::class,table:'order_lines');
