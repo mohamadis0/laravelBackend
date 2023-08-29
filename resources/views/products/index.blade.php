@@ -60,6 +60,7 @@
                 @endif
                 <th class="px-6 py-4">Edit</th>
                 <th class="px-6 py-4">Del</th>
+                <th class="px-6 py-4">Add</th>
             </tr>
         </thead>
         <tbody>
@@ -124,6 +125,17 @@
                             </button>
                         </form>
                     </td>
+                    @if ($item->feature == 'product')
+                    <td class="px-6 py-4">
+                        <form  action="{{ route('product-add', ['order' => $item->id]) }}" method="GET">
+                            @csrf
+                            <button class="bg-blue-200 px-2 py-2 rounded-full border-0" type="submit" >
+                                add to cart
+                            </button>
+                        </form>
+                    </td>
+                    @endif
+                    
 
                     <script>
                         function confirmDelete() {

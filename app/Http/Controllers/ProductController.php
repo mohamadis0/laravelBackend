@@ -51,7 +51,7 @@ class ProductController extends Controller
     public function store(Request $request)
     {
 
-        //   dd($request->all());
+        
 
         $request->validate([
             'name'=>'required',
@@ -128,6 +128,7 @@ class ProductController extends Controller
       
        $tags=Tag::pluck('name','id');
        $ingredients=Product::where('feature','ingredient')->get()->pluck('name','id');
+    //   dd($ingredients);
         return view('products.edit',compact('product','categories','tags','ingredients','addons'));
     }
 
@@ -135,7 +136,8 @@ class ProductController extends Controller
      * Update the specified resource in storage.
      */
     public function update(Request $request, Product $product)
-    {
+    {   
+        
         $request->validate([
             'name' => 'required',
             'description' => 'required',
@@ -175,24 +177,34 @@ class ProductController extends Controller
         if ($add = $request->input('add')) {
             $product->addons()->sync($add);
         } else {
-            $product->relatedProducts()->detach();
+            $product->addons()->detach();
         }
     
-        // Handle ingredients and their removability
         $ingredients = $request->input('ingredient', []);
         $ingredientRemovable = $request->input('ingredient_removable', []);
-    
+        
+        // Get the list of ingredient IDs that are selected
+        $selectedIngredientIds = array_keys($ingredients);
+        
+        // Get the list of ingredient IDs associated with the product
+        $currentIngredientIds = $product->ingredients->pluck('id')->toArray();
+        
+        // Detach ingredients that are associated with the product but not selected
+        $ingredientsToDetach = array_diff($currentIngredientIds, $selectedIngredientIds);
+        $product->ingredients()->detach($ingredientsToDetach);
+        
         foreach ($ingredients as $ingredientId => $value) {
             // Check if the ingredient ID exists and is removable
-            if (isset($ingredientRemovable[$ingredientId])) {
-                $removable = $ingredientRemovable[$ingredientId] == 1;
+            if (isset($ingredientRemovable[$ingredientId]) && $ingredientRemovable[$ingredientId] == 1) {
+                $removable = true;
             } else {
                 $removable = false;
             }
-    
+        
             // Attach the ingredient to the product and store the "removability" status
             $product->ingredients()->syncWithoutDetaching([$ingredientId => ['removable' => $removable]]);
         }
+        
     
         // Return a redirect response with a success message
         return redirect()->route("products.index")->with('success', "Product updated successfully");
@@ -208,4 +220,12 @@ class ProductController extends Controller
         
         return redirect()->route("products.index")->with('success',"Product deleted successfuly");
     }
+
+    public function getAddons($productId)
+{
+    $product = Product::find($productId);
+    $addons = $product->addons;
+    
+    return response()->json($addons);
+}
 }

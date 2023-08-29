@@ -12,6 +12,7 @@ use App\Http\Controllers\ProfileController;
 use App\Models\OrderDetails;
 use App\Http\Controllers\ProductAddonController;
 use App\Http\Controllers\TagController;
+use App\Models\Order;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -26,9 +27,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 
-Route::get('/', function () {
-    return view('welcome');
-});
+
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -38,7 +37,9 @@ Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
-
+    Route::get('/', function () {
+        return view('dashboard');
+    });
     Route::resource('/order',OrderController::class);
 Route::resource('/orderDetails',OrderDetailsController::class);
 Route::resource('/payment',PaymentController::class);
@@ -54,6 +55,13 @@ require __DIR__.'/auth.php';
 Route::resource('client',ClientController::class);
 Route::resource('category',CategoryController::class);
 Route::resource('coupon',CouponController::class);
+
+
+Route::post('/orders/{order}/update-status', [OrderController::class, 'updateStatus'])
+    ->name('orders.update-status');
+
+Route::get('/order/addproduct/{order}',[OrderController::class,'create'])
+    ->name('product-add');
 
 
 
