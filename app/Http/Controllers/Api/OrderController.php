@@ -22,16 +22,18 @@ class OrderController extends Controller
             'product' => 'required',
             'quantity' => 'required',
             'add' => 'array',
-            'remove'=>'array'
+            'remove'=>'array',
+            'client_id'=>'required',
         ]);
         // $user_id = auth()->user()->id;
         $productId = $request->input('product');
         $quantity = $request->input('quantity');
         $addons = $request->input('add', []);
         $removes = $request->input('remove',[]);
+        $client=$request->input('client_id');
         $subtotal = 0;
-
-        $order = Order::where('client_id', 1)
+        
+        $order = Order::where('client_id',$client )
             ->where('status', 'draft')
             ->latest('id')
             ->first();
@@ -42,7 +44,7 @@ class OrderController extends Controller
                 // 'client_id' => $user_id,
                 'ordered_date' => '2023-08-23',
                 'payment_id'=>1,
-                'client_id'=>1,
+                'client_id'=>$client,
                 'total'=>0,
             ]
         );
@@ -125,8 +127,8 @@ class OrderController extends Controller
         if($request->has('coupon'))
         {
             $coupon = $request->coupon;
-            $order->coupon_id = $coupon->id;
-            $order->total_discounted = $order->total * 1 / $coupon->discount;
+            $order->coupon_id = $request->input('coupon.id');
+            $order->total_discounted = $order->total-$order->total * 1 / $request->input('coupon.discount');
             $order->save();
 
         }

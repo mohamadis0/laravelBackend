@@ -77,6 +77,7 @@ class ProductController extends Controller
             $product->image = $productImage;
             $product->save();
         }
+        
        
         
     if ($request->has('tags')) {
