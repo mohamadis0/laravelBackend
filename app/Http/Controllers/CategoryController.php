@@ -31,23 +31,20 @@ class CategoryController extends Controller
         $request->validate([
             'Name' => 'required', 
             'Icon' => 'required',
-            
         ]);
 
-        $input=$request->all();
-        
-         
+        $input = $request->except('Icon');
+        $category = Category::create($input);
+
         if($image=$request->file('Icon')){
             
             $destinationPath='images/';
-            $productImage=date('YmdHis').".".$image->getClientOriginalExtension();
+            $productImage='category_'.$category->id.'_'.date('YmdHis').".".$image->getClientOriginalExtension();
             $image->move($destinationPath,$productImage);
-            $input['Icon']="$productImage";
+            $category->Icon = $productImage;
+            $category->save();
+              
         }
-
-        
-    
-       Category::create($input);
 
         return redirect()->route('category.index')->with('success', 'Data saved successfully');
     
@@ -81,7 +78,7 @@ class CategoryController extends Controller
         if($image=$request->file('Icon')){
             // dd($image);
             $destinationPath='images/';
-            $productImage=date('YmdHis').".".$image->getClientOriginalExtension();
+            $productImage='category_'.$category->id.'_'.date('YmdHis').".".$image->getClientOriginalExtension();
             $image->move($destinationPath,$productImage);
             $input['Icon']="$productImage";
         }else {
