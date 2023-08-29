@@ -67,15 +67,17 @@ class ProductController extends Controller
             'ingredient_removable' => 'array',
             'ingredient_removable.*' => 'boolean',
         ]);
-        $input=$request->all();
-       
+        $input = $request->except('image');
+        $product = Product::create($input);
+
         if($image=$request->file('image')){
             $destinationPath='images/';
-            $productImage=date('YmdHis').".".$image->getClientOriginalExtension();
+            $productImage='product_'.$product->id.'_'.date('YmdHis').".".$image->getClientOriginalExtension();
             $image->move($destinationPath,$productImage);
-            $input['image']="$productImage";
+            $product->image = $productImage;
+            $product->save();
         }
-       $product=Product::create($input);
+       
         
     if ($request->has('tags')) {
         $tags = $request->input('tags');
@@ -155,7 +157,7 @@ class ProductController extends Controller
         // Handle the uploaded image, if provided
         if ($image = $request->file('image')) {
             $destinationPath = 'images/';
-            $productImage = date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $productImage ='product_' . $product->id . '_'. date('YmdHis') . "." . $image->getClientOriginalExtension();
             $image->move($destinationPath, $productImage);
             $input['image'] = $productImage;
         } else {
