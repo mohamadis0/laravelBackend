@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CouponController;
 use App\Http\Controllers\Api\ProductController;
@@ -21,6 +22,14 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
     return $request->user();
 });
+Route::resource('/products',ProductController::class);
+
+Route::group(['prefix'=>'order'],function(){
+    Route::post('/draft',[OrderController::class,'create']);
+    Route::post('/addDetails',[OrderController::class,'placeOrder']);
+    Route::get('/products',[OrderController::class,'products']);
+    Route::delete('/remove-product/{product}',[OrderController::class,'removeProduct']);
+});
 Route::get('/products',[ProductController::class,'index']);
 Route::get('/products/{id}',[ProductController::class,'show']);
 Route::get('/categories',[CategoryController::class,'index']);
@@ -28,3 +37,4 @@ Route::get('/categories/{id}/products',[CategoryController::class,'productsByCat
 Route::get('/tags',[TagController::class,'index']);
 Route::get('/tags/{id}/products',[TagController::class,'productsByTag']);
 Route::post('/coupon',[CouponController::class,'validateCoupon']);
+
