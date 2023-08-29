@@ -31,6 +31,7 @@
                         @endforeach
                     </select>
                 </div> --}}
+                <input type="text" name="product" value="{{$product->id}}" hidden>
                 <div class="mb-4">
                     <label for="" class="form-label font-bold text-2xl">{{$product->name}}</label>
                 </div>

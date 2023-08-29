@@ -41,25 +41,25 @@
                     <td class="whitespace-nowrap px-6 py-4">{{$client->user->email}}</td>
                     <td class="whitespace-nowrap px-6 py-4">{{$client->contact}}</td>
                   
-                    <td>
+                    <td class="whitespace-nowrap px-6 py-4 font-medium">
                       <form action="/client/{{$client->id}}" method="POST"  >
                   
                           @csrf
                           @method('DELETE')
-                          <button class=" bg-red-500 text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4" type="submit" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
+                          <button class=" bg-red-700 text-lg rounded-lg hover:bg-transparent w-full p-2 " type="submit" onclick="return confirm('Are you sure you want to delete this record?')">Delete</button>
                       </form>
                   </td>
-                  <td>
-                  <a href="{{ route('client.show', $client->id) }}" class=" bg-[#af0433] text-lg rounded-lg hover:bg-opacity-10  w-full h-10 mb-4 px-6 py-2" >
+                  <td class="whitespace-nowrap px-6 py-4 font-medium">
+                  <a href="{{ route('client.show', $client->id) }}" class=" bg-blue-400 text-lg rounded-lg hover:bg-opacity-10  w-full p-2" >
                     More Details
                   </a>
                 </td>
-                <td>
+                <td class="whitespace-nowrap px-6 py-4 font-medium">
                   <form action="{{route('client.edit', $client->id)}}" method="PUT"  >
               
                       @csrf
                       
-                      <button class=" bg-red-400 text-lg rounded-lg hover:bg-transparent w-full h-10 mb-4" type="submit" >Edit</button>
+                      <button class=" bg-green-300 text-sm rounded-lg hover:bg-transparent w-full p-2" type="submit" >Edit</button>
                   </form>
               </td>
                   </tr> 
