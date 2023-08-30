@@ -4,18 +4,40 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use App\Models\Product;
-use Illuminate\Http\Request;
+
+
+
 
 class ProductController extends Controller
 {
-    public function index(Request $request)
+    public function index()
     {
 
-        $product=Product::all();
+        $products=Product::all();
         return response()->json([
             'success'=>true,
             'message'=>'all products',
-            'data'=>$product
+            'data'=>$products,
         ]);
     }
+    public function show($id)
+    {
+        $product=Product::find($id);
+        
+        if(is_null($product)){
+            return response()->json([
+                'success'=>false,
+                'message'=>'failed to fetch product',
+                
+            ]);
+        }
+        return response()->json([
+            'success'=>true,
+            'message'=>'product fetched success',
+            'data'=>$product,
+            
+        ]);
+    }
+   
+
 }

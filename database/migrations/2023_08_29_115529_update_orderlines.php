@@ -4,25 +4,25 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-return new class extends Migration {
+return new class extends Migration
+{
     /**
      * Run the migrations.
      */
-    public function up()
+    public function up(): void
     {
-        Schema::create('clients', function (Blueprint $table) {
-            $table->id();
-            $table->string('contact');
-            $table->timestamps();
+        Schema::table('order_lines', function (Blueprint $table) {
+            $table->double('subTotal')->nullable();
         });
     }
-
 
     /**
      * Reverse the migrations.
      */
     public function down(): void
     {
-        Schema::dropIfExists('clients');
+        Schema::table('orderlines', function (Blueprint $table) {
+            //
+        });
     }
 };

@@ -9,7 +9,7 @@ class OrderLine extends Model
 {
     use HasFactory;
     protected $table='order_lines';
-    protected $fillable=["quantity",'product_id','order_id'];
+    protected $fillable=["quantity",'product_id','order_id','subTotal'];
     public function product_addons()
     {
         return $this->hasMany(ProductAddon::class);
@@ -21,5 +21,10 @@ class OrderLine extends Model
     public function products()
     {
         return $this->belongsToMany(Product::class,table:'product_orderlines');
+    }
+
+    public function product()
+    {
+        return $this->belongsTo(Product::class, 'product_id');
     }
 }

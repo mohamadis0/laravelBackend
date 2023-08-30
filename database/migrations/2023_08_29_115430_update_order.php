@@ -12,7 +12,8 @@ return new class extends Migration
     public function up(): void
     {
         Schema::table('orders', function (Blueprint $table) {
-            $table->foreignId('coupon_id')->nullable()->constrained(table:"coupons");
+            $table->double('total')->nullable();
+            $table->double('total_discounted')->nullable();
         });
     }
 
@@ -21,7 +22,7 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('orders', function (Blueprint $table) {
+        Schema::table('order', function (Blueprint $table) {
             //
         });
     }

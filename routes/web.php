@@ -40,7 +40,7 @@ Route::middleware('auth')->group(function () {
     Route::get('/', function () {
         return view('dashboard');
     });
-    Route::resource('/order',OrderController::class);
+Route::resource('/order',OrderController::class);
 Route::resource('/orderDetails',OrderDetailsController::class);
 Route::resource('/payment',PaymentController::class);
 Route::resource('/products',ProductController::class);
@@ -62,6 +62,8 @@ Route::post('/orders/{order}/update-status', [OrderController::class, 'updateSta
 
 Route::get('/order/addproduct/{order}',[OrderController::class,'create'])
     ->name('product-add');
+
+Route::delete('remove-product/{order}/{product}',[OrderController::class,'removeProduct'])->name('remove-product');
 
 
 

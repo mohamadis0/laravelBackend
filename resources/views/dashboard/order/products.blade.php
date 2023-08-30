@@ -91,6 +91,13 @@
                                 ${{$subtotal}}
 
                               </td>
+                              <td>
+                              <form action="{{ route('remove-product', ['order' => $order->id,'product'=>$product->id]) }}" method="post">
+                              @csrf
+                              @method("DELETE")
+                                <button type="submit">Remove</button>
+                              </form>
+                              </td>
                         </tr>
                     @endforeach
                    
