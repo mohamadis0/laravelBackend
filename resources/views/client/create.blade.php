@@ -17,17 +17,38 @@
                         <x-input-label for="client" :value="__('Email')" />
                         <x-text-input id="client" class="block mt-1 w-full" type="email" name="email" :value="old('name')" required autofocus autocomplete="username" />
                     </div>
-                    <div>
+                    <div class="mt-4">
+                        <x-input-label for="password" :value="__('Password')" />
+            
+                        <x-text-input id="password" class="block mt-1 w-full"
+                                        type="password"
+                                        name="password"
+                                        required autocomplete="new-password" />
+            
+                        <x-input-error :messages="$errors->get('password')" class="mt-2" />
+                    </div>
+            
+                    <!-- Confirm Password -->
+                    <div class="mt-4">
+                        <x-input-label for="password_confirmation" :value="__('Confirm Password')" />
+            
+                        <x-text-input id="password_confirmation" class="block mt-1 w-full"
+                                        type="password"
+                                        name="password_confirmation" required autocomplete="new-password" />
+            
+                        <x-input-error :messages="$errors->get('password_confirmation')" class="mt-2" />
+                    </div>
+                    {{-- <div>
                         <x-input-label for="client" :value="__('Password')" />
                         <x-text-input id="client" class="block mt-1 w-full" type="password" name="password" :value="old('name')" required autofocus autocomplete="username" />
-                    </div>
+                    </div> --}}
                     <div>
                         <x-input-label for="client" :value="__('Username')" />
                         <x-text-input id="client" class="block mt-1 w-full" type="text" name="name" :value="old('name')" required autofocus autocomplete="username" />
                     </div>
                     <div>
                         <x-input-label for="client" :value="__('Contact Number')" />
-                        <x-text-input id="client" class="block mt-1 w-full" type="text" name="contact" :value="old('name')" required autofocus autocomplete="username" />
+                        <x-text-input class="block mt-1 w-full" type="number" name="contact" :value="old('name')" required autofocus autocomplete="username" />
                     </div>
                     <div>
                         <x-input-label for="client" :value="__('Address')" />

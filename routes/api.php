@@ -1,5 +1,9 @@
 <?php
 
+
+use App\Http\Controllers\Api\ClientController;
+use App\Http\Controllers\Api\NewPasswordController;
+use App\Http\Controllers\Api\AuthController;
 use App\Http\Controllers\Api\OrderController;
 use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CouponController;
@@ -19,9 +23,27 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
-    return $request->user();
+Route::middleware(['auth:sanctum'])->group(function () {
+    Route::get('/user', function (Request $request) {
+        return $request->user();
+    });
+    Route::resource('/products',ProductController::class);
+
+    Route::get('clients/{clientId}', [ClientController::class, 'getClientDetails']);
+
+Route::put('clients/{clientId}', [ClientController::class, 'updateClientDetails']);
+Route::post('clients/{clientId}/addresses', [ClientController::class, 'createAddress']);
+
+
 });
+
+
+
+Route::post('/register', [AuthController::class, 'register']);
+Route::post('/login', [AuthController::class, 'login']);
+
+Route::post('/forgotpassword', [NewPasswordController::class, 'forgotPassword']);
+
 Route::resource('/products',ProductController::class);
 
 Route::group(['prefix'=>'order'],function(){
@@ -37,4 +59,5 @@ Route::get('/categories/{id}/products',[CategoryController::class,'productsByCat
 Route::get('/tags',[TagController::class,'index']);
 Route::get('/tags/{id}/products',[TagController::class,'productsByTag']);
 Route::post('/coupon',[CouponController::class,'validateCoupon']);
+
 
