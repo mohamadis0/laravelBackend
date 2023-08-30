@@ -68,8 +68,9 @@ class ProductController extends Controller
             'ingredient_removable.*' => 'boolean',
         ]);
         $input = $request->except('image');
+       
         $product = Product::create($input);
-
+    
         if($image=$request->file('image')){
             $destinationPath='images/';
             $productImage='product_'.$product->id.'_'.date('YmdHis').".".$image->getClientOriginalExtension();
