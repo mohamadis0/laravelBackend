@@ -10,6 +10,7 @@ use App\Models\OrderLine;
 use App\Models\Payment;
 use App\Models\Product;
 use App\Models\ProductAddon;
+use App\Models\ProductOrderline;
 use App\Models\ProductProductAddon;
 use App\Models\ProductProductRemove;
 use App\Models\ProductRemove;
@@ -171,5 +172,37 @@ return view('dashboard.order.products',compact('orderlines','order','products'))
         $order->status = 'order';
         $order->save();
         return redirect()->route('order.index')->with('message','Ordered');
+    }
+
+    public function removeProduct( Order $order, Product $product)
+    {
+        $orderline = OrderLine::where('order_id',$order->id)->where('product_id',$product->id)->first();
+        if($orderline)
+        {
+            //addons
+            foreach(ProductAddon::where('order_line_id', $orderline->id)->get() as $addon)
+            {
+                ProductProductAddon::where('product_addon_id',$addon->id)->delete();
+                $addon->delete();
+            }
+
+            //removes
+            foreach(ProductRemove::where('order_line_id', $orderline->id)->get() as $remove)
+            {
+                ProductProductRemove::where('product_remove_id',$remove->id)->delete();
+                $remove->delete();
+            }
+
+            ProductOrderline::where('order_line_id',$orderline->id)->delete();
+
+            $orderline->delete();
+            $orderlines = OrderLine::where('order_id',$order->id)->get();
+            if($orderlines->isEmpty())
+            {
+                $order->delete();
+            }
+            return redirect()->route('order.index')->with('message','Product Deleted From Order');
+        }
+        return redirect()->route('order.index')->with('message','Failed to delete Product');
     }
 }
