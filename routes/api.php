@@ -58,6 +58,8 @@ Route::post('/forgotpassword', [NewPasswordController::class, 'forgotPassword'])
 
 Route::get('/addons-removes/{id}',[OrderController::class,'getAddRemoveProduct']);
 
+Route::get('/top-products',[ProductController::class,'getProductsOrderedByCounter']);
+
 
 
 

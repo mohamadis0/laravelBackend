@@ -43,6 +43,7 @@ class OrderController extends Controller
             $order = Order::create([
                 'status' => 'draft',
                 // 'client_id' => $user_id,
+                'ordered_date'=>"2023-08-23",
                 'payment_id'=>$payment,
                 'client_id'=>$client,
                 'total'=>0,
@@ -155,6 +156,13 @@ class OrderController extends Controller
                 $order->status = 'order';
                 $order->save();
 
+                $orderlines = OrderLine::where('order_id',$order->id)->get();
+                foreach($orderlines as $orderline)
+                {
+                    $product = $orderline->product;
+                    $product->ordered_counter +=$orderline->quantity;
+                    $product->save();
+                }
                 return response()->json([
                     'message'=>'Ordered',
                     'order_id'=>$order->id,

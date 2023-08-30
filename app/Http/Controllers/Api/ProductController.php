@@ -38,6 +38,13 @@ class ProductController extends Controller
             
         ]);
     }
+
+    public function getProductsOrderedByCounter()
+    {
+        $products = Product::where('feature','product')->orderByOrderedCounterDescending()->get();
+
+        return response()->json($products);
+    }
    
 
 }
