@@ -235,7 +235,7 @@ class OrderController extends Controller
                 $orderlines = OrderLine::where('order_id',$order->id)->get();
                 if($orderlines->isEmpty())
                 {
-                    OrderDetails::where('order_id')->delete();
+                    OrderDetails::where('order_id',$order->id)->delete();
                     $order->delete();
                 }
                 return response()->json([
