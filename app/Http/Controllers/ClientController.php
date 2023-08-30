@@ -84,9 +84,9 @@ class ClientController extends Controller
     public function show(Client $client)
     {
         $details = $client->clientDetails;
-        // dd($details);
-    $address = $client->adress;
-        // dd($address);
+
+        $address = $client->adress;
+       
     return view('client.clientDetails', [
         'client' => $client,
         'details' => $details,

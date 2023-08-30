@@ -9,15 +9,11 @@
        
           <div class="overflow-x-auto sm:-mx-6 lg:-mx-8 ">
             <div class="inline-block w-full py-2 sm:px-6 lg:px-8">
-              @if ($message=Session::get('success'))
-              <div class="bg-green-500 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
-                  
-                  <span class="block sm:inline">{{$message}}</span>
-                  
-                </div>
-              @endif
+          
+            
+          
               <div class="overflow-hidden">
-                
+                @if ($details && $adress){
                 <table class="bg-white w-full text-left text-sm font-light">
                   <thead
                     class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
@@ -66,6 +62,9 @@
                     
                   </tbody>
                 </table>
+              }@else{
+        <p>Details or address not found</p>}
+    @endif
               </div>
             </div>
           </div>
