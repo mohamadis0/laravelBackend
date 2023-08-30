@@ -137,9 +137,11 @@ class ClientController extends Controller
             'password' => Hash::make($request->password),
         ]);
         
-        $client->adress()->update([
+        if($request->input('addname')){
+        $client->adress()->create([
             'name'=>$request->input('addname')
          ]);
+        }
          return redirect()->route('client.index')->with('success', 'Data saved successfully');
      
     }
