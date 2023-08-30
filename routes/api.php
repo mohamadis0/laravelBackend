@@ -26,7 +26,7 @@ Route::resource('/products',ProductController::class);
 
 Route::group(['prefix'=>'order'],function(){
     Route::post('/draft',[OrderController::class,'create']);
-    Route::post('/addDetails',[OrderController::class,'placeOrder']);
+    Route::post('/placeOrder',[OrderController::class,'placeOrder']);
     Route::get('/products',[OrderController::class,'products']);
     Route::delete('/remove-product/{product}',[OrderController::class,'removeProduct']);
 });
