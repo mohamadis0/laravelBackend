@@ -31,33 +31,32 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
     Route::get('clients/{clientId}', [ClientController::class, 'getClientDetails']);
 
-Route::put('clients/{clientId}', [ClientController::class, 'updateClientDetails']);
-Route::post('clients/{clientId}/addresses', [ClientController::class, 'createAddress']);
+    Route::put('clients/{clientId}', [ClientController::class, 'updateClientDetails']);
+    Route::post('clients/{clientId}/addresses', [ClientController::class, 'createAddress']);
 
-
+    Route::group(['prefix'=>'order'],function(){
+        Route::post('/draft',[OrderController::class,'create']);
+        Route::post('/placeOrder',[OrderController::class,'placeOrder']);
+        Route::get('/products',[OrderController::class,'products']);
+        Route::delete('/remove-product/{product}',[OrderController::class,'removeProduct']);
+    });
+    Route::get('/products',[ProductController::class,'index']);
+    Route::resource('/products',ProductController::class);
+    Route::get('/products/{id}',[ProductController::class,'show']);
+    Route::get('/categories',[CategoryController::class,'index']);
+    Route::get('/categories/{id}/products',[CategoryController::class,'productsByCategory']);
+    Route::get('/tags',[TagController::class,'index']);
+    Route::get('/tags/{id}/products',[TagController::class,'productsByTag']);
+    Route::post('/coupon',[CouponController::class,'validateCoupon']);
 });
 
 
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
-
 Route::post('/forgotpassword', [NewPasswordController::class, 'forgotPassword']);
 
-Route::resource('/products',ProductController::class);
 
-Route::group(['prefix'=>'order'],function(){
-    Route::post('/draft',[OrderController::class,'create']);
-    Route::post('/placeOrder',[OrderController::class,'placeOrder']);
-    Route::get('/products',[OrderController::class,'products']);
-    Route::delete('/remove-product/{product}',[OrderController::class,'removeProduct']);
-});
-Route::get('/products',[ProductController::class,'index']);
-Route::get('/products/{id}',[ProductController::class,'show']);
-Route::get('/categories',[CategoryController::class,'index']);
-Route::get('/categories/{id}/products',[CategoryController::class,'productsByCategory']);
-Route::get('/tags',[TagController::class,'index']);
-Route::get('/tags/{id}/products',[TagController::class,'productsByTag']);
-Route::post('/coupon',[CouponController::class,'validateCoupon']);
+
 
 
