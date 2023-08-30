@@ -56,6 +56,8 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgotpassword', [NewPasswordController::class, 'forgotPassword']);
 
+Route::get('/addons-removes/{id}',[OrderController::class,'getAddRemoveProduct']);
+
 
 
 
