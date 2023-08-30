@@ -41,9 +41,9 @@ class ClientController extends Controller
         ]);
         // dd($validatedUser);
         $validatedClient= $request->validate([
-            'contact'=>['required', 'integer'],
+            'contact'=>['required']
         ]);
-        // dd($validatedClient);
+        //  dd($validatedClient);
         $validatedClientDetails = $request->validate([
             'fname' => 'required', 
             'lname' => 'required',
@@ -57,10 +57,10 @@ class ClientController extends Controller
          $request->validate([
             'addname'=>'required'
          ]);
-        //  dd($validatedAddress);
+         
 
          $user = User::create($validatedUser);
-        //  dd($user);
+        //   dd($user);
          $client = $user->client()->create($validatedClient);
         //  dd($client);
          $client->clientDetails()->create($validatedClientDetails);
