@@ -31,6 +31,7 @@ class OrderController extends Controller
         $addons = $request->input('add', []);
         $removes = $request->input('remove',[]);
         $client=$request->input('client_id');
+        $payment = $request->input('payment_id');
         $subtotal = 0;
         
         $order = Order::where('client_id',$client )
@@ -43,7 +44,7 @@ class OrderController extends Controller
                 'status' => 'draft',
                 // 'client_id' => $user_id,
                 'ordered_date' => '2023-08-23',
-                'payment_id'=>1,
+                'payment_id'=>$payment,
                 'client_id'=>$client,
                 'total'=>0,
             ]
@@ -118,8 +119,8 @@ class OrderController extends Controller
         ]);
 
         // $user_id = auth()->user()->id;
-
-        $order = Order::where('client_id', 1)
+        $client = $request->input('client_id');
+        $order = Order::where('client_id', $client)
         ->where('status', 'draft')
         ->latest('id')
         ->first();
@@ -167,9 +168,10 @@ class OrderController extends Controller
         }
     }
 
-    public function products()
+    public function products(Request $request)
     {
-        $order = Order::where('client_id', 1)
+        $client = $request->input('client_id');
+        $order = Order::where('client_id', $client)
         ->where('status', 'draft')
         ->latest('id')
         ->first(); 
@@ -193,9 +195,10 @@ class OrderController extends Controller
         
     }
 
-    public function removeProduct(Product $product)
+    public function removeProduct(Product $product, Request $request)
     {
-        $order = Order::where('client_id', 1)
+        $client = $request->input('client_id');
+        $order = Order::where('client_id', $client)
         ->where('status', 'draft')
         ->latest('id')
         ->first(); 
@@ -222,6 +225,11 @@ class OrderController extends Controller
                 ProductOrderline::where('order_line_id',$orderline->id)->delete();
 
                 $orderline->delete();
+                $orderlines = OrderLine::where('order_id',$order->id)->get();
+                if($orderlines->isEmpty())
+                {
+                    $order->delete();
+                }
                 return response()->json([
                     'message' => 'Product removed from the order.',
                 ], 200);
