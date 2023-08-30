@@ -49,6 +49,8 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/tags/{id}/products',[TagController::class,'productsByTag']);
     Route::post('/coupon',[CouponController::class,'validateCoupon']);
     Route::post('/products/filter', [ProductController::class, 'filterByPrice']);
+    Route::get('/addons-removes/{id}',[OrderController::class,'getAddRemoveProduct']);
+    Route::get('/top-products',[ProductController::class,'getProductsOrderedByCounter']);
 });
 
 
@@ -57,9 +59,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgotpassword', [NewPasswordController::class, 'forgotPassword']);
 
-Route::get('/addons-removes/{id}',[OrderController::class,'getAddRemoveProduct']);
 
-Route::get('/top-products',[ProductController::class,'getProductsOrderedByCounter']);
 
 
 
