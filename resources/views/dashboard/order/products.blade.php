@@ -91,13 +91,16 @@
                                 ${{$subtotal}}
 
                               </td>
+                              @if ($order->status == 'draft')
                               <td>
-                              <form action="{{ route('remove-product', ['order' => $order->id,'product'=>$product->id]) }}" method="post">
-                              @csrf
-                              @method("DELETE")
-                                <button type="submit">Remove</button>
-                              </form>
-                              </td>
+                                <form action="{{ route('remove-product', ['order' => $order->id,'product'=>$product->id]) }}" method="post">
+                                @csrf
+                                @method("DELETE")
+                                  <button type="submit">Remove</button>
+                                </form>
+                                </td>
+                              @endif
+                              
                         </tr>
                     @endforeach
                    
