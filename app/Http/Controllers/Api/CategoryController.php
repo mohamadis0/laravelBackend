@@ -28,7 +28,7 @@ class CategoryController extends Controller
         }
 
         // Retrieve products belonging to the specified category
-        $products = $category->products;
+        $products = $category->products()->where('feature','product')->get();
 
         return response()->json($products);
     }

@@ -13,7 +13,7 @@
             
           
               <div class="overflow-hidden">
-                @if ($details && $adress){
+                @if ($details && $adress)
                 <table class="bg-white w-full text-left text-sm font-light">
                   <thead
                     class="border-b bg-white font-medium dark:border-neutral-500 dark:bg-neutral-600">
@@ -43,8 +43,8 @@
                       <td class="whitespace-nowrap px-6 py-4">{{$client->user->name}}</td>
                       <td class="whitespace-nowrap px-6 py-4">{{$client->user->email}}</td>
                       <td class="whitespace-nowrap px-6 py-4">{{$client->contact}}</td>
-                      @foreach ($adress as $address)
-                      <td class="whitespace-nowrap px-6 py-4">{{$address->name}}</td>
+                      @foreach ($adress as $address0)
+                      <td class="whitespace-nowrap px-6 py-4">{{$address0->name}}</td>
 
     
                         @endforeach
@@ -62,7 +62,7 @@
                     
                   </tbody>
                 </table>
-              }@else{
+              @else{
         <p>Details or address not found</p>}
     @endif
               </div>

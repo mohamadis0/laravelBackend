@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\ClientDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -42,9 +43,20 @@ class AuthController extends Controller
         $client = new Client([
             'contact' => $request->contact,
         ]);
+    
 
         $user->client()->save($client);
-
+       $clientdetails= new  ClientDetails([
+            'fname' => '',
+            'lname' => '',
+            'company_name' => '',
+            'country' => '',
+            'city' => '',
+            'state' => '',
+            'zip' => '',
+            
+        ]);
+        $client->clientDetails()->save($clientdetails);
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
