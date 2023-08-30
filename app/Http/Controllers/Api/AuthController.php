@@ -7,6 +7,7 @@ namespace App\Http\Controllers\Api;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Models\Client;
+use App\Models\ClientDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
@@ -42,16 +43,27 @@ class AuthController extends Controller
         $client = new Client([
             'contact' => $request->contact,
         ]);
+    
 
-        $cl=$user->client()->save($client);
-
+        $user->client()->save($client);
+       $clientdetails= new  ClientDetails([
+            'fname' => '',
+            'lname' => '',
+            'company_name' => '',
+            'country' => '',
+            'city' => '',
+            'state' => '',
+            'zip' => '',
+            
+        ]);
+        $client->clientDetails()->save($clientdetails);
         $token = $user->createToken('api-token')->plainTextToken;
 
         return response()->json([
             'status' => true,
             'message' => 'User registered successfully',
             'token' => $token,
-            'clientID'=>$cl->id,
+            'clientID'=>$client->id,
         ], 200);
     } catch (\Throwable $th) {
         return response()->json([
@@ -91,7 +103,7 @@ public function login(Request $request)
             'status' => true,
             'message' => 'User Logged In Successfully',
             'token' => $user->createToken("api-token")->plainTextToken,
-            'clientID'=>$user->id
+            'clientID'=>$user->client->id
         ], 200);
 
     } catch (\Throwable $th) {

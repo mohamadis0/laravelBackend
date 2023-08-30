@@ -43,7 +43,7 @@ class OrderController extends Controller
             $order = Order::create([
                 'status' => 'draft',
                 // 'client_id' => $user_id,
-                'ordered_date' => '2023-08-23',
+                'ordered_date'=>"2023-08-23",
                 'payment_id'=>$payment,
                 'client_id'=>$client,
                 'total'=>0,
@@ -156,6 +156,13 @@ class OrderController extends Controller
                 $order->status = 'order';
                 $order->save();
 
+                $orderlines = OrderLine::where('order_id',$order->id)->get();
+                foreach($orderlines as $orderline)
+                {
+                    $product = $orderline->product;
+                    $product->ordered_counter +=$orderline->quantity;
+                    $product->save();
+                }
                 return response()->json([
                     'message'=>'Ordered',
                     'order_id'=>$order->id,
@@ -228,6 +235,7 @@ class OrderController extends Controller
                 $orderlines = OrderLine::where('order_id',$order->id)->get();
                 if($orderlines->isEmpty())
                 {
+                    OrderDetails::where('order_id',$order->id)->delete();
                     $order->delete();
                 }
                 return response()->json([
@@ -242,5 +250,22 @@ class OrderController extends Controller
         'message' => 'No Order',
         ], 404);
         
+    }
+
+    public function getAddRemoveProduct($id)
+    {
+        $product=Product::find($id);
+        if($product)
+        {
+            $product->addons;
+            $product->removables;
+            return response()->json([
+                'message'=>'Product with his addons and removes',
+                'product'=>$product
+            ]);
+        }
+        return response()->json([
+            'message'=>'Product not found'
+        ]);
     }
 }

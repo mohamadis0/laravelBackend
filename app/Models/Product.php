@@ -67,6 +67,11 @@ class Product extends Model
 {
     return $this->belongsToMany(OrderLine::class,table:'product_orderlines');
 }
+
+    public function scopeOrderByOrderedCounterDescending($query)
+    {
+        return $query->orderBy('ordered_counter', 'desc');
+    }
     
     
 }

@@ -43,13 +43,12 @@
                       <td class="whitespace-nowrap px-6 py-4">{{$client->user->name}}</td>
                       <td class="whitespace-nowrap px-6 py-4">{{$client->user->email}}</td>
                       <td class="whitespace-nowrap px-6 py-4">{{$client->contact}}</td>
+
                       
                       <td class="whitespace-nowrap px-6 py-4">
                         @foreach ($adress as $address)
                         {{$address->name}},
 
-    
-                        @endforeach
                       </td>
                       <td class="whitespace-nowrap px-6 py-4">{{$details->fname}}</td>
                       <td class="whitespace-nowrap px-6 py-4">{{$details->lname}}</td>
@@ -65,8 +64,10 @@
                     
                   </tbody>
                 </table>
+
               @else
         <p>Details or address not found</p>
+
     @endif
               </div>
             </div>

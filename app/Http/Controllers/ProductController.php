@@ -78,36 +78,37 @@ class ProductController extends Controller
             $product->image = $productImage;
             $product->save();
         }
-        
-       
-        
-    if ($request->has('tags')) {
-        $tags = $request->input('tags');
-       
-        // Attach the selected tags to the product
-       
-        $product->tags()->attach($tags); 
-    }
-    if ($add=$request->input('add')) {
-        $product->addons()->attach($add);
-    }
-    
-    if ($request->has('ingredient')) {
-        $ingredients = $request->input('ingredient');
-        $ingredientRemovable = $request->input('ingredient_removable', []);
-    
-        foreach ($ingredients as $ingredientId => $value) {
-            // Check if the ingredient ID exists and is removable
-            if (isset($ingredientRemovable[$ingredientId])) {
-                $removable = $ingredientRemovable[$ingredientId] == 1;
-            } else {
-                $removable = false;
+        if($product->feature=='product'){
+            if ($request->has('tags')) {
+                $tags = $request->input('tags');
+               
+                // Attach the selected tags to the product
+               
+                $product->tags()->attach($tags); 
             }
-    
-            // Attach the ingredient to the product and store the "removability" status
-            $product->ingredients()->attach($ingredientId, ['removable' => $removable]);
+            if ($add=$request->input('add')) {
+                $product->addons()->attach($add);
+            }
+            
+            if ($request->has('ingredient')) {
+                $ingredients = $request->input('ingredient');
+                $ingredientRemovable = $request->input('ingredient_removable', []);
+            
+                foreach ($ingredients as $ingredientId => $value) {
+                    // Check if the ingredient ID exists and is removable
+                    if (isset($ingredientRemovable[$ingredientId])) {
+                        $removable = $ingredientRemovable[$ingredientId] == 1;
+                    } else {
+                        $removable = false;
+                    }
+            
+                    // Attach the ingredient to the product and store the "removability" status
+                    $product->ingredients()->attach($ingredientId, ['removable' => $removable]);
+                }
+            }
         }
-    }
+        
+    
     
     
         return redirect()->route("products.index")->with('success',"Product added successfuly");
