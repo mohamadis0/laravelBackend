@@ -74,10 +74,10 @@
                         @if(count($client->adress)!=0)
                         @foreach ($client->adress as $address)
                         
-                   <x-text-input id="client" class="block mt-1 w-full" type="text" name="addname" value="{{$address->name}}" required autofocus autocomplete="username" />
+                   <x-text-input id="client" class="block mt-1 w-full" type="text" name="addname" value="{{$address->name}}"  />
                         @endforeach
                    @endif
-                   <x-text-input id="client" class="block mt-1 w-full" type="text" name="addname" value="" required autofocus autocomplete="username" />
+                   <x-text-input id="client" class="block mt-1 w-full" type="text" name="addname" value="" />
 
                     </div>
                     <div>
