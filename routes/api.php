@@ -48,7 +48,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/tags',[TagController::class,'index']);
     Route::get('/tags/{id}/products',[TagController::class,'productsByTag']);
     Route::post('/coupon',[CouponController::class,'validateCoupon']);
-    Route::get('products/filter', [ProductController::class, 'filterByPrice']);
+    Route::post('/products/filter', [ProductController::class, 'filterByPrice']);
 });
 
 
