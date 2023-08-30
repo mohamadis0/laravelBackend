@@ -215,6 +215,8 @@ class OrderController extends Controller
             $orderline = OrderLine::where('order_id',$order->id)->where('product_id',$product->id)->first();
             if($orderline)
             {
+                $order->total -= $orderline->subTotal;
+                $order->save();
                 //addons
                 foreach(ProductAddon::where('order_line_id', $orderline->id)->get() as $addon)
                 {
@@ -230,7 +232,6 @@ class OrderController extends Controller
                 }
 
                 ProductOrderline::where('order_line_id',$orderline->id)->delete();
-
                 $orderline->delete();
                 $orderlines = OrderLine::where('order_id',$order->id)->get();
                 if($orderlines->isEmpty())

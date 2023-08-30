@@ -123,15 +123,7 @@ class OrderController extends Controller
     $products = $order->products;
     $orderlines = OrderLine::where('order_id',$order->id)->get();
     
-    // foreach($orderlines as $orderline){
-    //     $addons = $orderline->product_addons;
-    //     foreach($addons as $addon){
-    //         $products = $addon->products;
-    //         foreach($products as $product){
-    //             echo $product->name;
-    //         }
-    //     }
-    // }
+
 return view('dashboard.order.products',compact('orderlines','order','products'));
     
     }
@@ -178,6 +170,9 @@ return view('dashboard.order.products',compact('orderlines','order','products'))
         $orderline = OrderLine::where('order_id',$order->id)->where('product_id',$product->id)->first();
         if($orderline)
         {
+            $order->total = $order->total -  $orderline->subTotal;
+            $order->save();
+
             //addons
             foreach(ProductAddon::where('order_line_id', $orderline->id)->get() as $addon)
             {
@@ -193,7 +188,6 @@ return view('dashboard.order.products',compact('orderlines','order','products'))
             }
 
             ProductOrderline::where('order_line_id',$orderline->id)->delete();
-
             $orderline->delete();
             $orderlines = OrderLine::where('order_id',$order->id)->get();
             if($orderlines->isEmpty())

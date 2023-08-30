@@ -106,8 +106,19 @@
              </div>
 
                 <div class="flex justify-center items-center mt-12 font-bold text-xl text-blue-500">
-                  Total : ${{$total}}
+                  Total Before Discount : ${{$total}}
                 </div>
+
+                  <div class="flex justify-center items-center mt-6 font-bold text-xl text-green-500">
+
+                  Total After Discount :
+                  @if ($order->total_discounted)
+                    ${{$order->total_discounted}}
+                  @else
+                    ${{$order->total}}
+                  @endif
+                </div>
+
             </div>
           </div>
         </div>
