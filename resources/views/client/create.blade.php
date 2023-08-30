@@ -48,7 +48,7 @@
                     </div>
                     <div>
                         <x-input-label for="client" :value="__('Contact Number')" />
-                        <x-text-input class="block mt-1 w-full" type="number" name="contact" :value="old('name')" required autofocus autocomplete="username" />
+                        <x-text-input class="block mt-1 w-full" type="text" name="contact" :value="old('name')" required autofocus autocomplete="username" />
                     </div>
                     <div>
                         <x-input-label for="client" :value="__('Address')" />
