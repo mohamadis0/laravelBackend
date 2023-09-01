@@ -14,7 +14,7 @@ class ProductController extends Controller
     public function index()
     {
 
-        $products=Product::all()->where('feature','product');
+        $products=Product::where('feature','product')->get();
         return response()->json([
             'success'=>true,
             'message'=>'all products',
