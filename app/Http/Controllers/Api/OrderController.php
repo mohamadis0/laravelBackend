@@ -129,7 +129,7 @@ class OrderController extends Controller
         {
             $coupon = $request->coupon;
             $order->coupon_id = $request->input('coupon.id');
-            $order->total_discounted = $order->total-$order->total * 1 / $request->input('coupon.discount');
+            $order->total_discounted = $order->total-$order->total *$request->input('coupon.discount')/100;
             $order->save();
 
         }

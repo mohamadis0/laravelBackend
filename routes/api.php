@@ -27,7 +27,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::get('/user', function (Request $request) {
         return $request->user();
     });
-    Route::resource('/products',ProductController::class);
+   
 
     Route::get('clients/{clientId}', [ClientController::class, 'getClientDetails']);
 
@@ -40,17 +40,11 @@ Route::middleware(['auth:sanctum'])->group(function () {
         Route::get('/products',[OrderController::class,'products']);
         Route::delete('/remove-product/{product}',[OrderController::class,'removeProduct']);
     });
-    Route::get('/products',[ProductController::class,'index']);
-    Route::resource('/products',ProductController::class);
-    Route::get('/products/{id}',[ProductController::class,'show']);
-    Route::get('/categories',[CategoryController::class,'index']);
-    Route::get('/categories/{id}/products',[CategoryController::class,'productsByCategory']);
-    Route::get('/tags',[TagController::class,'index']);
-    Route::get('/tags/{id}/products',[TagController::class,'productsByTag']);
+   
     Route::post('/coupon',[CouponController::class,'validateCoupon']);
-    Route::post('/products/filter', [ProductController::class, 'filterByPrice']);
+   
     Route::get('/addons-removes/{id}',[OrderController::class,'getAddRemoveProduct']);
-    Route::get('/top-products',[ProductController::class,'getProductsOrderedByCounter']);
+    
 });
 
 
@@ -58,9 +52,15 @@ Route::middleware(['auth:sanctum'])->group(function () {
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
 Route::post('/forgotpassword', [NewPasswordController::class, 'forgotPassword']);
-
-
-
+Route::get('/products',[ProductController::class,'index']);
+Route::resource('/products',ProductController::class);
+Route::get('/products/{id}',[ProductController::class,'show']);
+Route::get('/categories',[CategoryController::class,'index']);
+Route::get('/categories/{id}/products',[CategoryController::class,'productsByCategory']);
+Route::get('/tags',[TagController::class,'index']);
+Route::get('/tags/{id}/products',[TagController::class,'productsByTag']);
+Route::get('/top-products',[ProductController::class,'getProductsOrderedByCounter']);
+Route::post('/products/filter', [ProductController::class, 'filterByPrice']);
 
 
 
