@@ -202,7 +202,7 @@ class OrderController extends Controller
         
     }
 
-    public function removeProduct(Product $product, Request $request)
+    public function removeProduct( $orderline_id, Request $request)
     {
         $client = $request->input('client_id');
         $order = Order::where('client_id', $client)
@@ -212,8 +212,8 @@ class OrderController extends Controller
         
         if($order)
         {
-            $orderline = OrderLine::where('order_id',$order->id)->where('product_id',$product->id)->first();
-            if($orderline)
+            $orderline = OrderLine::where('order_id',$order->id)->where('id',$orderline_id)->first();
+            if($orderline) 
             {
                 $order->total -= $orderline->subTotal;
                 $order->save();
@@ -240,11 +240,11 @@ class OrderController extends Controller
                     $order->delete();
                 }
                 return response()->json([
-                    'message' => 'Product removed from the order.',
+                    'message' => 'Orderline removed from the order.',
                 ], 200);
             }
             return response()->json([
-                'message' => 'Product not found in the order.',
+                'message' => 'Orderline not found in the order.',
             ], 404);
         }
         return response()->json([

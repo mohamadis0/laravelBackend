@@ -9,6 +9,7 @@ use App\Http\Controllers\Api\CategoryController;
 use App\Http\Controllers\Api\CouponController;
 use App\Http\Controllers\Api\ProductController;
 use App\Http\Controllers\Api\TagController;
+use App\Http\Controllers\ImageController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -51,6 +52,9 @@ Route::middleware(['auth:sanctum'])->group(function () {
     Route::post('/products/filter', [ProductController::class, 'filterByPrice']);
     Route::get('/addons-removes/{id}',[OrderController::class,'getAddRemoveProduct']);
     Route::get('/top-products',[ProductController::class,'getProductsOrderedByCounter']);
+
+    
+
 });
 
 
