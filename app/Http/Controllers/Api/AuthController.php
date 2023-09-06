@@ -64,6 +64,7 @@ class AuthController extends Controller
             'message' => 'User registered successfully',
             'token' => $token,
             'clientID'=>$client->id,
+            'user'=>$user,
         ], 200);
     } catch (\Throwable $th) {
         return response()->json([
@@ -103,7 +104,8 @@ public function login(Request $request)
             'status' => true,
             'message' => 'User Logged In Successfully',
             'token' => $user->createToken("api-token")->plainTextToken,
-            'clientID'=>$user->client->id
+            'clientID'=>$user->client->id,
+            'user'=>$user,
         ], 200);
 
     } catch (\Throwable $th) {
