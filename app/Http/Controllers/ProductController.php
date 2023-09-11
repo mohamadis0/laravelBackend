@@ -67,6 +67,7 @@ class ProductController extends Controller
             'ingredient_removable' => 'array',
             'ingredient_removable.*' => 'boolean',
         ]);
+       
         $input = $request->except('image');
        
         $product = Product::create($input);

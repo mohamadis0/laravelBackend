@@ -70,7 +70,7 @@
                     <td class="px-6 py-4">{{ $item->name }}</td>
                     <td class="px-6 py-4">{{ $item->description }}</td>
                     <td class="px-6 py-4">{{ $item->price }}</td>
-                    <td class="px-6 py-4">
+                    <td class="px-6 py-4 flex justify-center">
                         <img src="/images/{{ $item->image }}" alt="{{ $item->name }}" width="30px">
                     </td>
                     <td class="px-6 py-4">{{ $item->quantity }}</td>
