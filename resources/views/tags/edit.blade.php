@@ -22,11 +22,18 @@
        
     @endif
 
-<form action="{{route("tags.update",$tag->id)}}" method="post" >
+<form action="{{route("tags.update",$tag->id)}}" method="post" enctype="multipart/form-data">
     @csrf
     @method('PUT')
     <div class="flex flex-col  items-center justify-center mt-10">
         <input placeholder="Name" value="{{$tag->name}}" type="text" name="name"  class="w-1/2 rounded-lg">
+
+        <div class="flex flex-col justify-center  items-center mt-4 ">
+            <img src="/images/{{ $tag->image }}" alt="{{ $tag->name }}" width="200px" class="mb-4">
+             
+            <input type="file"  name="image" class="w-full rounded-lg">
+        </div>
+     
         <button type="submit" class=" bg-[#af0433] text-lg rounded-lg hover:bg-transparent w-full   mt-10 p-2">update tag</button>
     </div>
     

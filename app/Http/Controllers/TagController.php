@@ -32,10 +32,21 @@ class TagController extends Controller
     {
         $request->validate([
             'name'=>'required',
+             'image'=>'|image|mimes:jpeg,png,svg|max:2048',
         ]);
-        $input=$request->all();
         
-       Tag::create($input);
+        $input = $request->except('image');
+        $tag = Tag::create($input);
+        $input=$request->all();
+     
+        if($image=$request->file('image')){
+            $destinationPath='images/';
+            $productImage='tag_'.$tag->id.'_'.date('YmdHis').".".$image->getClientOriginalExtension();
+            $image->move($destinationPath,$productImage);
+            $tag->image = $productImage;
+            $tag->save();
+        }
+       
        return redirect()->route("tags.index")->with('success',"Tag added successfuly");
     }
 
@@ -64,7 +75,14 @@ class TagController extends Controller
             'name'=>'required',
         ]);
         $input=$request->all();
-        
+        if ($image = $request->file('image')) {
+            $destinationPath = 'images/';
+            $productImage ='product_' . $tag->id . '_'. date('YmdHis') . "." . $image->getClientOriginalExtension();
+            $image->move($destinationPath, $productImage);
+            $input['image'] = $productImage;
+        } else {
+            unset($input['image']);
+        }
         $tag->update($input);
        return redirect()->route("tags.index")->with('success',"Tag updated successfuly");
     }

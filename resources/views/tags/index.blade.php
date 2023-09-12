@@ -26,8 +26,7 @@
         <tr>
            <th class="px-6 py-4">Id</th> 
            <th class="px-6 py-4">Name</th> 
-           <th class="px-6 py-4">Created at</th> 
-           <th class="px-6 py-4">Updated at</th>
+           <th class="px-6 py-4">image</th> 
            <th class="px-6 py-4">Edit</th>
            <th class="px-6 py-4">Del</th>
         </tr>
@@ -37,8 +36,9 @@
             <tr key={{$item->id}} class="text-center ">
             <td class="px-6 py-4" >{{$item->id}}</td>
             <td class="px-6 py-4">{{$item->name}}</td>
-            <td class="px-6 py-4">{{$item->created_at}}</td>
-            <td class="px-6 py-4">{{$item->updated_at}}</td>
+            <td class="px-6 py-4 flex justify-center" >
+                <img src="/images/{{ $item->image }}" alt="{{ $item->name }}" width="100px" class="mb-4"></td>
+            
              <td class="px-6 py-4">
                 <a class="bg-green-100 text-lg rounded-lg hover:bg-transparent w-full p-2 mb-4" href="{{ route('tags.edit', $item->id) }}">
                     edit

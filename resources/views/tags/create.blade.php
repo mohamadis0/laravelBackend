@@ -22,13 +22,17 @@
        
     @endif
 
-<form action="{{route("tags.store")}}" method="post" >
+<form action="{{route("tags.store")}}" method="post" enctype="multipart/form-data">
     @csrf
     <div class="flex flex-col  items-center justify-center mt-10">
         <input placeholder="Name" type="text" name="name"  class="w-1/2 rounded-lg">
+        <div class=" mt-4">
+            
+            <input placeholder="Image" type="file" name="image" class="w-full rounded-lg">
+        </div>
         <button type="submit" class=" bg-[#af0433] text-lg rounded-lg hover:bg-transparent w-full   mt-10 p-2">create tag</button>
     </div>
-    
+   
     
 </form>
 

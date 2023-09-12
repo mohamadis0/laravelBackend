@@ -61,7 +61,7 @@
                           <td class=" py-4 text-center">{{$product->name}}</td> 
                           <td class=" py-4 text-center">{{$orderline->quantity}}</td>
                           {{-- <td class=" py-4"> <img src="/images/{{ $product->image }}" alt="{{ $product->name }}" width="30px"></td> --}}
-                          <td class=" py-4 text-center"><img src="/images/{{$product->image}}" alt="{{ $product->name }}" width="30px"></td>
+                          <td class=" py-4 flex justify-center"><img src="/images/{{$product->image}}" alt="{{ $product->name }}" width="30px"></td>
                           @endforeach
                               <td class=" py-4 text-center">
                               @foreach ($orderline->product_addons as $addons)
