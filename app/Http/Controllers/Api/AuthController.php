@@ -11,6 +11,7 @@ use App\Models\ClientDetails;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cookie;
 use Illuminate\Support\Facades\Validator;
 
 class AuthController extends Controller
@@ -58,7 +59,7 @@ class AuthController extends Controller
         ]);
         $client->clientDetails()->save($clientdetails);
         $token = $user->createToken('api-token')->plainTextToken;
-
+        Cookie::queue('token', $token, 60 * 24 * 30);
         return response()->json([
             'status' => true,
             'message' => 'User registered successfully',
@@ -99,11 +100,15 @@ public function login(Request $request)
         }
 
         $user = User::where('email', $request->email)->first();
+        $token = $user->createToken('api-token')->plainTextToken;
 
+        // Set the token as a cookie
+        Cookie::queue('token', $token, 60 * 24 * 30);
+       
         return response()->json([
             'status' => true,
             'message' => 'User Logged In Successfully',
-            'token' => $user->createToken("api-token")->plainTextToken,
+            'token' => $user->createToken("token")->plainTextToken,
             'clientID'=>$user->client->id,
             'user'=>$user,
         ], 200);
@@ -119,9 +124,10 @@ public function login(Request $request)
 
 public function logout(Request $request) {
 
-    // Revoke the token that was used to authenticate the current request
-    $request->user()->currentAccessToken()->delete();
+    
+ 
+   
     //$request->user->tokens()->delete(); // use this to revoke all tokens (logout from all devices)
-    return response()->json(null, 200);
+    return response()->json('cookies deleted succeseful', 200)->withoutCookie('token');
 }
 }
