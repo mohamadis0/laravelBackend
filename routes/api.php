@@ -55,6 +55,7 @@ Route::middleware(['auth:sanctum'])->group(function () {
 
 Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login', [AuthController::class, 'login']);
+Route::post('/Logout', [AuthController::class, 'logout']);
 Route::post('/forgotpassword', [NewPasswordController::class, 'forgotPassword']);
 Route::get('/products',[ProductController::class,'index']);
 Route::resource('/products',ProductController::class);
